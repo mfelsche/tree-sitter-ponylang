@@ -12,7 +12,7 @@
     "ponylang"
   ],
   "author": "Matthias Wahl",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "tree-sitter-cli": "^0.19.2"
   },
