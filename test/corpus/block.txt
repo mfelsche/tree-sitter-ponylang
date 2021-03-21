@@ -1,0 +1,16 @@
+======
+Return
+======
+
+use "abc"
+
+recover
+    continue consume x
+end
+
+---
+
+(source_file 
+  (use (string)
+
+)

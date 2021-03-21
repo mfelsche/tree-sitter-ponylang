@@ -1,0 +1,89 @@
+==================
+Use primitive type
+==================
+
+use @primitve_types[Bool](a: U64, b: I128, c: Main ref, d: U8 iso^, e: I8 tag!)
+
+---
+
+(source_file
+  (use 
+    name: (identifier)
+    return_type: (typeargs
+      (type name: (identifier)))
+    params: (params 
+      (param (identifier) (type name: (identifier)))
+      (param (identifier) (type name: (identifier)))
+      (param (identifier) (type name: (identifier) cap: (cap)))
+      (param (identifier) (type name: (identifier) cap: (cap)))
+      (param (identifier) (type name: (identifier) cap: (cap)))
+    ))
+)
+
+==============
+Use Union type
+==============
+
+use @union_type[(U8 | I8)]()
+
+---
+
+(source_file
+  (use
+    name: (identifier)
+    return_type: (typeargs
+      (type (union_type name: (identifier) name: (identifier)))
+    )
+  )
+)
+
+=====================
+Use Intersection type
+=====================
+
+use @union_type[(U8 & I8)]()
+
+---
+
+(source_file
+  (use
+    name: (identifier)
+    return_type: (typeargs
+      (type (isect_type name: (identifier) name: (identifier)))
+    )
+  )
+)
+
+==============
+Use tuple type
+==============
+
+use @tuple_type[(Foo, (Bar | Baz))]()
+
+---
+
+(source_file
+  (use
+    name: (identifier)
+    return_type: (typeargs
+      (type (tuple_type name: (identifier) (union_type name: (identifier) name: (identifier))))
+    )
+  )
+)
+
+================
+Use grouped type
+================
+
+use @grouped[(Foo)]()
+
+---
+
+(source_file 
+  (use
+    name: (identifier)
+    return_type: (typeargs
+      (type name: (identifier))
+    )
+  )
+)

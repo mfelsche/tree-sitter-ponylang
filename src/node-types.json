@@ -1,14 +1,93 @@
 [
   {
-    "type": "asop",
+    "type": "_term",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "consume",
+        "named": true
+      },
+      {
+        "type": "identifier",
+        "named": true
+      },
+      {
+        "type": "if",
+        "named": true
+      },
+      {
+        "type": "local",
+        "named": true
+      },
+      {
+        "type": "recover",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "annotations",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "type",
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "asop",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "assignment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "_term",
+          "named": true
+        },
+        {
+          "type": "asop",
+          "named": true
+        },
+        {
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binop",
           "named": true
         }
       ]
@@ -17,13 +96,88 @@
   {
     "type": "binop",
     "named": true,
-    "fields": {},
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "partial",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "term",
+          "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "break",
+          "named": true
+        },
+        {
+          "type": "compile_error",
+          "named": true
+        },
+        {
+          "type": "compile_intrinsic",
+          "named": true
+        },
+        {
+          "type": "continue",
+          "named": true
+        },
+        {
+          "type": "error",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "break",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
           "named": true
         }
       ]
@@ -35,17 +189,37 @@
     "fields": {}
   },
   {
-    "type": "gencap",
+    "type": "compile_error",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
   },
   {
-    "type": "identifier",
+    "type": "compile_intrinsic",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
   },
   {
-    "type": "infix",
+    "type": "consume",
     "named": true,
     "fields": {},
     "children": {
@@ -53,15 +227,523 @@
       "required": true,
       "types": [
         {
-          "type": "asop",
+          "type": "_term",
           "named": true
         },
         {
-          "type": "binop",
+          "type": "cap",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "continue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "elseif",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "if_block": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "error",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "gencap",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "if",
+    "named": true,
+    "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "else_block": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "if_block": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
           "named": true
         },
         {
-          "type": "term",
+          "type": "elseif",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "isect_type",
+    "named": true,
+    "fields": {
+      "cap": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "typeargs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "typeargs",
+            "named": true
+          }
+        ]
+      },
+      "viewpoint": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "->",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "isect_type",
+            "named": true
+          },
+          {
+            "type": "lambda_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": false
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "typeargs",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "cap",
+          "named": true
+        },
+        {
+          "type": "isect_type",
+          "named": true
+        },
+        {
+          "type": "lambda_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "lambda_type",
+    "named": true,
+    "fields": {
+      "cap": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "->",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "isect_type",
+            "named": true
+          },
+          {
+            "type": "lambda_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": false
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "typeargs",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      },
+      "typeargs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "typeargs",
+            "named": true
+          }
+        ]
+      },
+      "typeparams": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "typeparams",
+            "named": true
+          }
+        ]
+      },
+      "viewpoint": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "->",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "isect_type",
+            "named": true
+          },
+          {
+            "type": "lambda_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": false
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "typeargs",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "cap",
+          "named": true
+        },
+        {
+          "type": "gencap",
+          "named": true
+        },
+        {
+          "type": "isect_type",
+          "named": true
+        },
+        {
+          "type": "lambda_type",
+          "named": true
+        },
+        {
+          "type": "partial",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "local",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -76,11 +758,15 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "_term",
           "named": true
         },
         {
-          "type": "infix",
+          "type": "asop",
+          "named": true
+        },
+        {
+          "type": "binop",
           "named": true
         },
         {
@@ -106,6 +792,44 @@
     }
   },
   {
+    "type": "recover",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        },
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "cap",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "return",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -119,6 +843,150 @@
         },
         {
           "type": "use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tuple_type",
+    "named": true,
+    "fields": {
+      "cap": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "typeargs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "typeargs",
+            "named": true
+          }
+        ]
+      },
+      "viewpoint": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "->",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "isect_type",
+            "named": true
+          },
+          {
+            "type": "lambda_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": false
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "typeargs",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "cap",
+          "named": true
+        },
+        {
+          "type": "isect_type",
+          "named": true
+        },
+        {
+          "type": "lambda_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "union_type",
           "named": true
         }
       ]
@@ -164,32 +1032,12 @@
           }
         ]
       },
-      "return_type": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      },
       "typeargs": {
-        "multiple": false,
+        "multiple": true,
         "required": false,
         "types": [
           {
             "type": "typeargs",
-            "named": true
-          }
-        ]
-      },
-      "typeparams": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "typeparams",
             "named": true
           }
         ]
@@ -199,18 +1047,70 @@
         "required": false,
         "types": [
           {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
             "type": "->",
             "named": false
           },
           {
-            "type": "type",
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "isect_type",
+            "named": true
+          },
+          {
+            "type": "lambda_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": false
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "typeargs",
+            "named": true
+          },
+          {
+            "type": "union_type",
             "named": true
           }
         ]
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
@@ -218,15 +1118,19 @@
           "named": true
         },
         {
-          "type": "gencap",
+          "type": "isect_type",
           "named": true
         },
         {
-          "type": "partial",
+          "type": "lambda_type",
           "named": true
         },
         {
-          "type": "type",
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "union_type",
           "named": true
         }
       ]
@@ -307,6 +1211,150 @@
     }
   },
   {
+    "type": "union_type",
+    "named": true,
+    "fields": {
+      "cap": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "typeargs": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "typeargs",
+            "named": true
+          }
+        ]
+      },
+      "viewpoint": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "->",
+            "named": false
+          },
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "cap",
+            "named": true
+          },
+          {
+            "type": "gencap",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "isect_type",
+            "named": true
+          },
+          {
+            "type": "lambda_type",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": false
+          },
+          {
+            "type": "tuple_type",
+            "named": true
+          },
+          {
+            "type": "typeargs",
+            "named": true
+          },
+          {
+            "type": "union_type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "cap",
+          "named": true
+        },
+        {
+          "type": "isect_type",
+          "named": true
+        },
+        {
+          "type": "lambda_type",
+          "named": true
+        },
+        {
+          "type": "tuple_type",
+          "named": true
+        },
+        {
+          "type": "union_type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "use",
     "named": true,
     "fields": {
@@ -315,7 +1363,15 @@
         "required": false,
         "types": [
           {
-            "type": "infix",
+            "type": "_term",
+            "named": true
+          },
+          {
+            "type": "asop",
+            "named": true
+          },
+          {
+            "type": "binop",
             "named": true
           }
         ]
@@ -413,6 +1469,10 @@
     "named": false
   },
   {
+    "type": "!=",
+    "named": false
+  },
+  {
     "type": "#alias",
     "named": false
   },
@@ -433,6 +1493,22 @@
     "named": false
   },
   {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%%",
+    "named": false
+  },
+  {
+    "type": "%%~",
+    "named": false
+  },
+  {
+    "type": "%~",
+    "named": false
+  },
+  {
     "type": "&",
     "named": false
   },
@@ -445,7 +1521,19 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "*~",
+    "named": false
+  },
+  {
     "type": "+",
+    "named": false
+  },
+  {
+    "type": "+~",
     "named": false
   },
   {
@@ -461,7 +1549,19 @@
     "named": false
   },
   {
+    "type": "-~",
+    "named": false
+  },
+  {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "/~",
     "named": false
   },
   {
@@ -469,7 +1569,47 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<~",
+    "named": false
+  },
+  {
+    "type": "<=",
+    "named": false
+  },
+  {
     "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>~",
     "named": false
   },
   {
@@ -485,11 +1625,19 @@
     "named": false
   },
   {
+    "type": "\\",
+    "named": false
+  },
+  {
     "type": "]",
     "named": false
   },
   {
     "type": "^",
+    "named": false
+  },
+  {
+    "type": "and",
     "named": false
   },
   {
@@ -505,7 +1653,67 @@
     "named": false
   },
   {
+    "type": "break",
+    "named": false
+  },
+  {
+    "type": "compile_error",
+    "named": false
+  },
+  {
+    "type": "compile_intrinsic",
+    "named": false
+  },
+  {
+    "type": "consume",
+    "named": false
+  },
+  {
+    "type": "continue",
+    "named": false
+  },
+  {
+    "type": "else",
+    "named": false
+  },
+  {
+    "type": "elseif",
+    "named": false
+  },
+  {
+    "type": "embed",
+    "named": false
+  },
+  {
+    "type": "end",
+    "named": false
+  },
+  {
+    "type": "error",
+    "named": false
+  },
+  {
+    "type": "identifier",
+    "named": true
+  },
+  {
+    "type": "if",
+    "named": false
+  },
+  {
+    "type": "is",
+    "named": false
+  },
+  {
+    "type": "isnt",
+    "named": false
+  },
+  {
     "type": "iso",
+    "named": false
+  },
+  {
+    "type": "let",
     "named": false
   },
   {
@@ -513,11 +1721,23 @@
     "named": true
   },
   {
+    "type": "or",
+    "named": false
+  },
+  {
     "type": "partial",
     "named": true
   },
   {
+    "type": "recover",
+    "named": false
+  },
+  {
     "type": "ref",
+    "named": false
+  },
+  {
+    "type": "return",
     "named": false
   },
   {
@@ -529,8 +1749,8 @@
     "named": false
   },
   {
-    "type": "term",
-    "named": true
+    "type": "then",
+    "named": false
   },
   {
     "type": "this",
@@ -546,6 +1766,14 @@
   },
   {
     "type": "val",
+    "named": false
+  },
+  {
+    "type": "var",
+    "named": false
+  },
+  {
+    "type": "xor",
     "named": false
   },
   {
