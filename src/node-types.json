@@ -22,6 +22,10 @@
       {
         "type": "recover",
         "named": true
+      },
+      {
+        "type": "string",
+        "named": true
       }
     ]
   },
@@ -289,6 +293,120 @@
     }
   },
   {
+    "type": "entity",
+    "named": true,
+    "fields": {
+      "default_cap": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "cap",
+            "named": true
+          }
+        ]
+      },
+      "docstring": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "entity_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "actor",
+            "named": false
+          },
+          {
+            "type": "class",
+            "named": false
+          },
+          {
+            "type": "interface",
+            "named": false
+          },
+          {
+            "type": "primitive",
+            "named": false
+          },
+          {
+            "type": "struct",
+            "named": false
+          },
+          {
+            "type": "trait",
+            "named": false
+          },
+          {
+            "type": "type",
+            "named": false
+          }
+        ]
+      },
+      "fields": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "fields",
+            "named": true
+          }
+        ]
+      },
+      "methods": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "methods",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "provides": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        },
+        {
+          "type": "typeparams",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "error",
     "named": true,
     "fields": {},
@@ -298,6 +416,75 @@
       "types": [
         {
           "type": "block",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "field",
+    "named": true,
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          },
+          {
+            "type": "asop",
+            "named": true
+          },
+          {
+            "type": "binop",
+            "named": true
+          }
+        ]
+      },
+      "docstring": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "fields",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "field",
           "named": true
         }
       ]
@@ -750,6 +937,101 @@
     }
   },
   {
+    "type": "method",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "docstring": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "params": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "params",
+            "named": true
+          }
+        ]
+      },
+      "receiver_cap": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "cap",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        },
+        {
+          "type": "partial",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "methods",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "method",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "param",
     "named": true,
     "fields": {},
@@ -837,6 +1119,10 @@
       "multiple": true,
       "required": false,
       "types": [
+        {
+          "type": "entity",
+          "named": true
+        },
         {
           "type": "string",
           "named": true
@@ -1597,6 +1883,10 @@
     "named": false
   },
   {
+    "type": "=>",
+    "named": false
+  },
+  {
     "type": ">",
     "named": false
   },
@@ -1637,11 +1927,19 @@
     "named": false
   },
   {
+    "type": "actor",
+    "named": false
+  },
+  {
     "type": "and",
     "named": false
   },
   {
     "type": "as",
+    "named": false
+  },
+  {
+    "type": "be",
     "named": false
   },
   {
@@ -1654,6 +1952,10 @@
   },
   {
     "type": "break",
+    "named": false
+  },
+  {
+    "type": "class",
     "named": false
   },
   {
@@ -1693,11 +1995,19 @@
     "named": false
   },
   {
+    "type": "fun",
+    "named": false
+  },
+  {
     "type": "identifier",
     "named": true
   },
   {
     "type": "if",
+    "named": false
+  },
+  {
+    "type": "interface",
     "named": false
   },
   {
@@ -1721,12 +2031,20 @@
     "named": true
   },
   {
+    "type": "new",
+    "named": false
+  },
+  {
     "type": "or",
     "named": false
   },
   {
     "type": "partial",
     "named": true
+  },
+  {
+    "type": "primitive",
+    "named": false
   },
   {
     "type": "recover",
@@ -1745,6 +2063,10 @@
     "named": true
   },
   {
+    "type": "struct",
+    "named": false
+  },
+  {
     "type": "tag",
     "named": false
   },
@@ -1757,7 +2079,15 @@
     "named": false
   },
   {
+    "type": "trait",
+    "named": false
+  },
+  {
     "type": "trn",
+    "named": false
+  },
+  {
+    "type": "type",
     "named": false
   },
   {

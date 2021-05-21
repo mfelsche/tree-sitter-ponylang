@@ -1,0 +1,64 @@
+====
+Main
+====
+
+"""
+module docstring
+"""
+
+actor Main
+  """
+  actor docstring
+  """
+
+  let x: U8
+    "field docstring"
+  var y: String ref = "default"
+    """
+    long field docstring of field with default value
+    """
+  embed z: (U8 & Real[U8])
+
+  new create(env: Env) =>
+    """
+    constructor docstring
+    """
+    consume env
+
+---
+
+(source_file 
+  (string) 
+  (entity 
+    name: (identifier) 
+    docstring: (string) 
+    fields: (fields 
+      (field 
+        name: (identifier) 
+        type: (type name: (identifier)) 
+        docstring: (string)
+      )
+      (field 
+        name: (identifier)
+        type: (type 
+          name: (identifier) 
+          cap: (cap)) 
+        default: (string)
+        docstring: (string)
+      )
+      (field 
+        name: (identifier) 
+        type: (type (isect_type name: (identifier) name: (identifier) typeargs: (typeargs (type name: (identifier)))))
+      )
+    )
+    methods: (methods
+      (method 
+        name: (identifier) 
+        params: (params (param (identifier) (type name: (identifier)))) 
+        body: (block 
+          (assignment (string)) 
+          (assignment (consume (identifier))))
+      )
+    )
+  )
+)

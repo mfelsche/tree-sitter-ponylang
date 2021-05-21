@@ -14,7 +14,7 @@
   "author": "Matthias Wahl",
   "license": "MIT",
   "devDependencies": {
-    "tree-sitter-cli": "^0.19.2"
+    "tree-sitter-cli": "^0.19.5"
   },
   "tree-sitter": [
     {

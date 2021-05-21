@@ -11,7 +11,7 @@ module.exports = grammar({
   ],
   word:            $ => $.identifier,
   rules: {
-    source_file :  $ => seq(optional($.string), repeat($.use)/*TODO: , repeat($.class_def)*/),
+    source_file :  $ => seq(optional($.string), repeat($.use), repeat($.entity)),
     line_comment:  $ => token(seq('//', /.*/)),
     cap:           $ => choice('iso', 'trn', 'ref', 'val', 'box', 'tag'),
     gencap:        $ => choice('#read', '#send', '#share', '#alias', '#any'),
@@ -66,9 +66,9 @@ module.exports = grammar({
     "compile_intrinsic":  $ => seq('compile_intrinsic', optional($.block)),
     "compile_error":  $ => seq('compile_error', optional($.block)),
     _jump:        $ => choice(
-            $.return,
-            $.break,
-            $.continue,
+            $["return"],
+            $["break"],
+            $["continue"],
             $.error,
             $.compile_intrinsic,
             $.compile_error
@@ -127,9 +127,10 @@ module.exports = grammar({
         // TODO: add more
         $.identifier,
         $.local,
-        $.if,
+        $["if"],
         $.consume,
-        $.recover
+        $.recover,
+        $.string
     ),
     _partial_ops: $ => choice(
                             'and',
@@ -192,5 +193,45 @@ module.exports = grammar({
                         optional(field('name', $._use_name)), 
                         field('specifier', choice($.string, $._use_ffi)), 
                         optional(seq('if', field('condition', $._infix)))), 
+    field:        $ => seq(
+                        choice('var', 'let', 'embed'),
+                        field('name', $.identifier),
+                        seq(
+                            ':',
+                            field('type', $.type)
+                        ),
+                        optional(seq('=', field('default', $._infix ))),
+                        optional(field('docstring', $.string))
+                       ),
+    method:       $ => seq(
+                        choice('fun', 'be', 'new'),
+                        optional($.annotations),
+                        optional(
+                            choice(
+                                field('receiver_cap', $.cap),
+                                '@'
+                            )
+                        ),
+                        field('name', $.identifier),
+                        '(', optional(field('params', $.params)), ')',
+                        optional(seq(':', field('return_type', $.type))),
+                        optional($.partial),
+                        optional(field('docstring', $.string)),
+                        optional(seq('=>', field('body', $.block)))
+                       ),
+    fields:       $ => repeat1($.field),
+    methods:      $ => repeat1($.method),
+    entity:       $ => seq(
+                        field('entity_type', choice('type', 'interface', 'trait', 'primitive', 'struct', 'class', 'actor')),
+                        optional($.annotations),
+                        optional(token('@')),
+                        optional(field('default_cap', $.cap)),
+                        field('name', $.identifier),
+                        optional($.typeparams),
+                        optional(seq('is', field('provides', $.type))),
+                        optional(field('docstring', $.string)),
+                        optional(field('fields',  $.fields)), 
+                        optional(field('methods', $.methods))
+                       )
   }
 });
