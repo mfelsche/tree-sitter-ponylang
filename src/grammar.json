@@ -558,6 +558,44 @@
         ]
       }
     },
+    "isop": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "FIELD",
+            "name": "lhs",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_term"
+            }
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "is"
+              },
+              {
+                "type": "STRING",
+                "value": "isnt"
+              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "rhs",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_term"
+            }
+          }
+        ]
+      }
+    },
     "consume": {
       "type": "SEQ",
       "members": [
@@ -746,25 +784,30 @@
           "name": "_infix"
         },
         {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "="
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "assignment"
-                }
-              ]
+              "type": "STRING",
+              "value": "="
             },
             {
-              "type": "BLANK"
+              "type": "SYMBOL",
+              "name": "assignment"
             }
           ]
+        }
+      ]
+    },
+    "_block_expr": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "assignment"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_infix"
         }
       ]
     },
@@ -773,7 +816,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "assignment"
+          "name": "_block_expr"
         },
         {
           "type": "REPEAT",
@@ -794,7 +837,7 @@
               },
               {
                 "type": "SYMBOL",
-                "name": "assignment"
+                "name": "_block_expr"
               }
             ]
           }
@@ -1278,6 +1321,10 @@
         {
           "type": "SYMBOL",
           "name": "asop"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "isop"
         }
       ]
     },

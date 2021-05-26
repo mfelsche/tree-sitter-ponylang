@@ -93,6 +93,10 @@
         {
           "type": "binop",
           "named": true
+        },
+        {
+          "type": "isop",
+          "named": true
         }
       ]
     }
@@ -142,7 +146,19 @@
       "required": true,
       "types": [
         {
+          "type": "_term",
+          "named": true
+        },
+        {
+          "type": "asop",
+          "named": true
+        },
+        {
           "type": "assignment",
+          "named": true
+        },
+        {
+          "type": "binop",
           "named": true
         },
         {
@@ -163,6 +179,10 @@
         },
         {
           "type": "error",
+          "named": true
+        },
+        {
+          "type": "isop",
           "named": true
         },
         {
@@ -440,6 +460,10 @@
           {
             "type": "binop",
             "named": true
+          },
+          {
+            "type": "isop",
+            "named": true
           }
         ]
       },
@@ -687,6 +711,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "isop",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1049,6 +1099,10 @@
         },
         {
           "type": "binop",
+          "named": true
+        },
+        {
+          "type": "isop",
           "named": true
         },
         {
@@ -1658,6 +1712,10 @@
           },
           {
             "type": "binop",
+            "named": true
+          },
+          {
+            "type": "isop",
             "named": true
           }
         ]

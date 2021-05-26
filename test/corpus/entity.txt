@@ -56,8 +56,8 @@ actor Main
         name: (identifier) 
         params: (params (param (identifier) (type name: (identifier)))) 
         body: (block 
-          (assignment (string)) 
-          (assignment (consume (identifier))))
+          (string) 
+          (consume (identifier)))
       )
     )
   )

@@ -57,6 +57,11 @@ module.exports = grammar({
         'as',
         field('rhs', $.type))
     ),
+    isop:           $ => prec(2, seq(
+        field('lhs', $._term),
+        choice('is', 'isnt'),
+        field('rhs', $._term))
+    ),
     consume:        $ => seq('consume', optional($.cap), $._term),
     // jumps
     "return":       $ => seq('return', optional($.block)),
@@ -75,16 +80,18 @@ module.exports = grammar({
     ),
     assignment:   $ => seq(
         $._infix,
-        optional(
-            seq(
-                '=',
-                $.assignment
-            )
+        seq(
+            '=',
+            $.assignment
         )
     ),
-    _block_exprs:       $ => seq(
+    _block_expr:        $ => choice(
         $.assignment,
-        repeat(seq(optional(';'), $.assignment))
+        $._infix
+    ),
+    _block_exprs:       $ => seq(
+        $._block_expr,
+        repeat(seq(optional(';'), $._block_expr))
     ),
     block:     $ => choice(
         seq($._block_exprs, optional($._jump)),
@@ -114,7 +121,7 @@ module.exports = grammar({
         'end'
     ),
     local:        $ => seq(
-        choice('var', 'let', 'embed'),
+        choice('var', 'let', 'embed'), // TODO: match capture
         $.identifier,
         optional(
             seq(
@@ -169,7 +176,8 @@ module.exports = grammar({
     _infix:       $ => choice(
         $._term,
         $.binop,
-        $.asop
+        $.asop,
+        $.isop
     ),
     identifier:   $ => token(seq(/[a-zA-Z_]/, repeat(/[a-zA-Z0-9_']/))),
     param:        $ => seq($.identifier, ':', $.type, optional(seq('=', $._infix))),
