@@ -65,3 +65,19 @@ use @println[U64](i: U64, u: U64)?
     partial: (partial)
   )
 )
+
+======
+Use if
+======
+
+use "package" if consume iso foo
+
+---
+
+(source_file
+  (use
+    specifier: (string)
+    condition: (consume (cap) (identifier))
+  )
+)
+
