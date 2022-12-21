@@ -49,20 +49,27 @@ use "foo"
 Use FFI
 ========
 
-use @println[U64](i: U64, u: U64)?
+use @println[U64](i: U64, u: U64, ...)?
 
 ---
 
 (source_file
   (use 
-    name: (identifier)
-    return_type: (typeargs 
-      (type (nominal_type name: (identifier))))
-    params: (params 
-              (param (identifier) (type (nominal_type name: (identifier))))
-              (param (identifier) (type (nominal_type name: (identifier))))
-            )
-    partial: (partial)
+    specifier: (use_ffi
+      name: (identifier)
+      return_type: (typeargs 
+        (type (nominal_type name: (identifier))))
+      params: (params
+        (param
+          name: (identifier) 
+          type: (type (nominal_type name: (identifier))))
+        (param 
+          name: (identifier) 
+          type: (type (nominal_type name: (identifier))))
+        (param)
+      )
+      partial: (partial)
+    )
   )
 )
 

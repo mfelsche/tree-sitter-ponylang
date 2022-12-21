@@ -1,4 +1,4 @@
-; names to assign: 
+; Common names to assign: 
 ; - attribute
 ; - comment
 ; - constant
@@ -48,6 +48,7 @@
 (entity_type) @keyword
 [
  "if"
+ "ifdef"
  "then"
  "else"
  "elseif"
@@ -103,6 +104,7 @@
  "xor"
  "is"
  "isnt"
+ "not"
 ] @operator
 
 ;; literals

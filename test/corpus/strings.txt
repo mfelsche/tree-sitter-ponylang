@@ -35,7 +35,7 @@ use
 
 ---
 
-(source_file (string))
+(source_file docstring: (string))
 
 ===================
 Triple empty String
@@ -45,8 +45,7 @@ Triple empty String
 
 ---
 
-(source_file
-  (string)
+(source_file docstring: (string)
 )
 
 =========================
@@ -61,9 +60,7 @@ use "foo"
 
 ---
 
-(source_file
-  (string)
-)
+(source_file docstring: (string))
 
 =========================
 Triple many ending quotes
@@ -75,9 +72,7 @@ jdhshfsdhfgsdhg
 
 ---
 
-(source_file
-  (string)
-)
+(source_file docstring: (string))
 
 =========================
 Block Quote Triple String
@@ -103,4 +98,4 @@ hdfjdf
 
 ---
 
-(source_file (block_comment) (string))
+(source_file (block_comment) docstring: (string))

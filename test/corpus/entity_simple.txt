@@ -16,8 +16,8 @@ actor Main
               name: (identifier)
               params: (params
                 (param
-                  (identifier)
-                  (type
+                  name: (identifier)
+                  type: (type
                     (nominal_type name: (identifier)))))
               body: (block (identifier))
             )

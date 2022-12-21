@@ -2020,20 +2020,37 @@
   {
     "type": "param",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_term",
-          "named": true
-        },
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
+    "fields": {
+      "default": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -2502,18 +2519,20 @@
     "type": "unary_op",
     "named": true,
     "fields": {
-      "operator": {
+      "operand": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "!",
-            "named": false
-          },
-          {
-            "type": "&",
-            "named": false
-          },
+            "type": "_term",
+            "named": true
+          }
+        ]
+      },
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
             "type": "-",
             "named": false
@@ -2523,21 +2542,19 @@
             "named": false
           },
           {
+            "type": "addressof",
+            "named": false
+          },
+          {
             "type": "digestof",
+            "named": false
+          },
+          {
+            "type": "not",
             "named": false
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "_term",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2647,6 +2664,36 @@
           {
             "type": "identifier",
             "named": true
+          }
+        ]
+      },
+      "specifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "use_ffi",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "use_ffi",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
           },
           {
             "type": "string",
@@ -2676,46 +2723,8 @@
       },
       "return_type": {
         "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "typeargs",
-            "named": true
-          }
-        ]
-      },
-      "specifier": {
-        "multiple": true,
         "required": true,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": "@",
-            "named": false
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "params",
-            "named": true
-          },
-          {
-            "type": "partial",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          },
           {
             "type": "typeargs",
             "named": true
@@ -2944,6 +2953,10 @@
     "named": false
   },
   {
+    "type": "...",
+    "named": false
+  },
+  {
     "type": ".>",
     "named": false
   },
@@ -3041,6 +3054,10 @@
   },
   {
     "type": "actor",
+    "named": false
+  },
+  {
+    "type": "addressof",
     "named": false
   },
   {
@@ -3177,6 +3194,10 @@
   },
   {
     "type": "new",
+    "named": false
+  },
+  {
+    "type": "not",
     "named": false
   },
   {

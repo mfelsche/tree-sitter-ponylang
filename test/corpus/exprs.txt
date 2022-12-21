@@ -1,0 +1,17 @@
+=========
+Unary ops
+=========
+
+use "snot" if not badger
+
+---
+
+(source_file
+  (use 
+    specifier: (string)
+    condition: (unary_op
+      operand: (identifier)
+    )
+  )
+)
+

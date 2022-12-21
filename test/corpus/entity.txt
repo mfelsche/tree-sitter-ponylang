@@ -61,10 +61,16 @@ actor Main
       (constructor 
         receiver_cap: (cap)
         name: (identifier) 
-        params: (params (param (identifier) (type (nominal_type name: (identifier)))))
+        params: (params 
+          (param 
+            name: (identifier) 
+            type: (type (nominal_type name: (identifier)))
+          )
+        )
         body: (block 
           (string) 
-          (consume (identifier)))
+          (consume (identifier))
+        )
       )
       (behavior
         name: (identifier)
@@ -75,10 +81,13 @@ actor Main
          )
         )
         params: (params
-         (param (identifier) (type (nominal_type name: (identifier))))
+         (param 
+           name: (identifier) 
+           type: (type (nominal_type name: (identifier)))
+         )
         )
         body: (block (string))
-     )
+      )
     )
   )
 )
@@ -108,7 +117,12 @@ actor Main
     methods: (methods
       (constructor
         name: (identifier)
-        params: (params (param (identifier) (type (nominal_type name: (identifier)))))
+        params: (params 
+          (param 
+            name: (identifier) 
+            type: (type (nominal_type name: (identifier)))
+          )
+        )
         body: (block
           (call
             callee: (field_access
@@ -144,8 +158,8 @@ actor Main
         )
         params: (params
           (param
-            (identifier)
-            (type
+            name: (identifier)
+            type: (type
               (nominal_type
                 name: (identifier)
                 typeargs: (typeargs
