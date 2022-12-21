@@ -57,10 +57,10 @@ use @println[U64](i: U64, u: U64)?
   (use 
     name: (identifier)
     return_type: (typeargs 
-      (type name: (identifier)))
+      (type (nominal_type name: (identifier))))
     params: (params 
-              (param (identifier) (type name: (identifier)))
-              (param (identifier) (type name: (identifier)))
+              (param (identifier) (type (nominal_type name: (identifier))))
+              (param (identifier) (type (nominal_type name: (identifier))))
             )
     partial: (partial)
   )

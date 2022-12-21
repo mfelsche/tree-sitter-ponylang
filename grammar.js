@@ -1,3 +1,10 @@
+const PREC = {
+  binary_op: 4,
+  unary_op: 6,
+  call: 7,
+  field: 7
+};
+
 module.exports = grammar({
     name: 'ponylang',
 
@@ -14,7 +21,11 @@ module.exports = grammar({
     ],
     word: $ => $.identifier,
     rules: {
-        source_file: $ => seq(optional($.string), repeat($.use), repeat($.entity)),
+        source_file: $ => seq(
+            field('docstring', optional($.string)), 
+            repeat($.use), 
+            repeat($.entity)
+        ),
         line_comment: $ => token(seq('//', /.*/)),
 
         // type
@@ -29,14 +40,14 @@ module.exports = grammar({
                 optional(choice('^', '!'))
             )
         ),
-        _nominal_type: $ => prec.right(seq(
-            field('name', seq($.identifier, optional(seq('.', $.identifier)))),
+        nominal_type: $ => prec.right(seq(
+            field('name', sep1('.', $.identifier)),
             optional(field('typeargs', $.typeargs)),
             optional(field('cap', $._type_cap))
         )),
-        union_type: $ => seq($._inner_type, repeat1(seq('|', $._inner_type))),
-        isect_type: $ => seq($._inner_type, repeat1(seq('&', $._inner_type))),
-        tuple_type: $ => seq($._inner_type, repeat1(seq(',', $._inner_type))),
+        union_type: $ => sep2('|', $._inner_type),
+        isect_type: $ => sep2('&', $._inner_type),
+        tuple_type: $ => sep2(',', $._inner_type),
         _grouped_type: $ => seq(
             '(',
             choice(
@@ -53,7 +64,7 @@ module.exports = grammar({
             optional(field('name', $.identifier)),
             optional(field('typeparams', $.typeparams)),
             '(',
-            seq($._inner_type, repeat(seq(',', $._inner_type))),
+            commaSep1($._inner_type),
             ')',
             optional(seq(':', field('return_type', $._inner_type))),
             optional($.partial),
@@ -65,7 +76,7 @@ module.exports = grammar({
             choice(
                 'this', 
                 $.cap, 
-                $._nominal_type, 
+                $.nominal_type, 
                 $._grouped_type, 
                 $.lambda_type
             ),
@@ -124,20 +135,14 @@ module.exports = grammar({
                 $._jump
             )
         ),
-        annotations: $ => seq('\\', $.identifier, repeat(seq(',', $.identifier))),
+        annotations: $ => seq('\\', commaSep1($.identifier)),
         recover: $ => seq('recover', optional($.annotations), optional($.cap), $.block, 'end'),
         // id or sequence of ids
         idseq: $ => choice(
             $.identifier,
             seq(
                 '(',
-                $.identifier,
-                repeat(
-                    seq(
-                        ',',
-                        $.identifier
-                    )
-                ),
+                commaSep1($.identifier),
                 ')'
             )
         ),
@@ -194,15 +199,7 @@ module.exports = grammar({
             '=',
             field('initialiser', $.block),
         ),
-        withexpr: $ => seq(
-            $.withelem,
-            repeat(
-                seq(
-                    ',',
-                    $.withelem
-                )
-            )
-        ),
+        withexpr: $ => commaSep1($.withelem),
         with: $ => seq(
             'with',
             optional($.annotations),
@@ -312,7 +309,7 @@ module.exports = grammar({
         // ('var' | 'let' | 'embed' ) $.identifier [':' $.type]
         local: $ => seq(
             choice('var', 'let', 'embed'), // TODO: match capture
-            $.identifier,
+            field('name', $.identifier),
             optional(
                 seq(
                     ':',
@@ -320,23 +317,23 @@ module.exports = grammar({
                 )
             )
         ),
-        field_access: $ => seq(
-            $._term,
+        field_access: $ => prec(PREC.field, seq(
+            field('base', $._term),
             '.',
-            $.identifier
-        ),
-        partial_application: $ => seq(
+            field('field', $.identifier)
+        )),
+        partial_application: $ => prec(PREC.call, seq(
             $._term,
             '~', 
             $.identifier
-        ),
-        chain: $ => seq(
+        )),
+        chain: $ => prec(PREC.call, seq(
             $._term,
             '.>',
             $.identifier
-        ),
-        call: $ => seq(
-            $._term,
+        )),
+        call: $ => prec(PREC.call, seq(
+            field('callee', $._term),
             '(',
             field('arguments', seq(
                 optional(
@@ -348,15 +345,15 @@ module.exports = grammar({
             )),
             ')',
             optional($.partial)
-        ),
+        )),
         term_with_typeargs: $ => seq(
             $._term,
             $.typeargs
         ),
-        bool: $ => token(choice(
+        bool: $ => choice(
             'true',
             'false'
-        )),
+        ),
         number: $ => {
             const decimal = /[0-9][0-9_]*/;
             const hexadecimal = /[0-9a-fA-F][0-9a-fA-F_]*/;
@@ -423,10 +420,10 @@ module.exports = grammar({
         //    $["repeat"],
         //    $["for"]
         //),
-        unary_op: $ => seq(
+        unary_op: $ => prec(PREC.unary_op, seq(
             choice('!', '&', '-', '-~', 'digestof'),
             field("value", $._term)
-        ),
+        )),
         // ponyc rule: parampattern
         //_parampattern: $ => prec.left(seq(
         //   repeat(
@@ -482,8 +479,6 @@ module.exports = grammar({
             $.identifier, // reference
             'this',
             $._literal,
-            $.grouped,
-            //seq('(', $.block, ')'), // groupedexpr
             $.array,
             $.object,
             $.lambda,
@@ -509,6 +504,7 @@ module.exports = grammar({
             $.partial_application,
             $.chain,
             $.call,
+            $.grouped,
             $.term_with_typeargs
             // TODO: const_expr (not yet supported in ponyc)
         ),
@@ -564,17 +560,9 @@ module.exports = grammar({
         // ponyc rule: ref
         identifier: $ => token(seq(/[a-zA-Z_]/, repeat(/[a-zA-Z0-9_']/))),
         param: $ => seq($.identifier, ':', $.type, optional(seq('=', $._term))),
-        params: $ => seq($.param, repeat(seq(',', $.param))),
+        params: $ => commaSep1($.param),
         // TODO
-        positional_args: $ => seq(
-            $.block,
-            repeat(
-                seq(
-                    ',',
-                    $.block
-                )
-            )
-        ),
+        positional_args: $ => commaSep1($.block),
         named_arg: $ => seq(
             field('name', $.identifier),
             '=',
@@ -582,21 +570,15 @@ module.exports = grammar({
         ),
         named_args: $ => seq(
             'where',
-            $.named_arg,
-            repeat(
-                seq(
-                    ',',
-                    $.named_arg
-                )
-            )
+            commaSep1($.named_arg),
         ),
         typeparam: $ => seq(
             field('name', $.identifier),
             optional(field('constraint', seq(':', $.type))),
             optional(field('default', seq('=', $.type)))
         ),
-        typeparams: $ => seq('[', $.typeparam, repeat(seq(',', $.typeparam)), ']'),
-        typeargs: $ => seq('[', $.type, repeat(seq(',', $.type)), ']'), // TODO: const and literal typeargs
+        typeparams: $ => seq('[', commaSep1($.typeparam), ']'),
+        typeargs: $ => seq('[', commaSep1($.type), ']'), // TODO: const and literal typeargs
         partial: $ => '?',
         _use_name: $ => seq(field('name', $.identifier), '='),
         _use_ffi: $ => seq('@',
@@ -620,9 +602,19 @@ module.exports = grammar({
             optional(seq('=', field('default', $._term))),
             optional(field('docstring', $.string))
         ),
-        _method_type: $ => choice('fun', 'be', 'new'),
         method: $ => seq(
-            field('method_type', $._method_type),
+            'fun',
+            $._method_common
+        ),
+        behavior: $ => seq(
+            'be',
+            $._method_common
+        ),
+        constructor: $ => seq(
+            'new',
+            $._method_common
+        ),
+        _method_common: $ => seq(
             optional($.annotations),
             optional(
                 choice(
@@ -639,7 +631,7 @@ module.exports = grammar({
             optional(seq('=>', field('body', $.block)))
         ),
         fields: $ => repeat1($.field),
-        methods: $ => repeat1($.method),
+        methods: $ => repeat1(choice($.constructor, $.method, $.behavior)),
         object: $ => seq(
             'object',
             optional($.annotations),
@@ -653,7 +645,7 @@ module.exports = grammar({
         ),
         // TODO: split up into separate rules for each entity kind for having cleaner rules
         // and not 1 rule with everything mangled
-        entity_type: $ => choice('type', 'interface', 'trai t', 'primitive', 'struct', 'class', 'actor'),
+        entity_type: $ => choice('type', 'interface', 'trait', 'primitive', 'struct', 'class', 'actor'),
         entity: $ => seq(
             field('entity_type', $.entity_type),
             optional($.annotations),
@@ -668,3 +660,18 @@ module.exports = grammar({
         )
     }
 });
+
+function commaSep(rule) {
+  return optional(commaSep1(rule))
+}
+
+function commaSep1(rule) {
+  return sep1(',', rule)
+}
+
+function sep1(delimiter, rule) {
+  return seq(rule, repeat(seq(delimiter, rule)))
+}
+function sep2(delimiter, rule) {
+  return seq(rule, repeat1(seq(delimiter, rule)))
+}

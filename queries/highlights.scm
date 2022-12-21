@@ -21,12 +21,31 @@
 ; - type.builtin
 ; - variable
 ; - variable.parameter,
-(entity 
-  entity_type: (entity_type) @keyword
-  name: (identifier) @type
-  "is" @keyword
-  docstring: (string) @string.special
-)
+
+;; Comments
+[
+ (line_comment)
+ (block_comment)
+] @comment
+
+;; Punctuation
+[
+ "("
+ ")"
+ "{"
+ "}"
+ "["
+ "]"
+] @punctuation.bracket
+[
+  ";"
+  "."
+  ","
+] @punctuation.delimiter
+
+;; keywords
+(cap) @keyword
+(entity_type) @keyword
 [
  "if"
  "then"
@@ -45,10 +64,8 @@
  "be"
  "new"
 ] @keyword
-[
- "("
- ")"
-] @punctuation.bracket
+
+;; Operators
 [
  (partial)
  "=>"
@@ -87,24 +104,37 @@
  "is"
  "isnt"
 ] @operator
-[
- (line_comment)
- (block_comment)
-] @comment
+
+;; literals
 (bool) @constant.builtin
 (number) @number
+
+;; strings/docstrings
+(source_file docstring: (string) @string.special)
+(entity docstring: (string) @string.special)
+(constructor docstring: (string) @string.special)
+(method docstring: (string) @string.special)
+(behavior docstring: (string) @string.special)
+(field docstring: (string) @string.special)
 (string) @string
-(cap) @keyword
-(field
-  name: (identifier) @property
-  docstring: (string) @string.special
-)
-; constructors / methods / behaviours
-(method
-  name: (identifier) @constructor
-  params: (params (param (identifier) @variable.parameter))
-  docstring: (string) @string.special
-)
-(type name: (identifier) @type)
+
+;; fields/params and other non-variable identifiers
+(field name: (identifier) @property)
+(param (identifier) @variable.parameter)
+
+;; Types
+(entity name: (identifier) @type)
+(nominal_type name: (identifier) @type)
 (typeparams (typeparam name: (identifier) @type))
+(entity name: (identifier) @type)
+
+
+
+; constructors / methods / behaviours names
+(constructor name: (identifier) @constructor)
+(method name: (identifier) @function.method)
+(behavior name: (identifier) @function.method)
+
+;; variables
+(local name: (identifier) @variable)
 (identifier) @variable

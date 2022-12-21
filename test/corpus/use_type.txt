@@ -10,13 +10,13 @@ use @primitve_types[Bool](a: U64, b: I128, c: Main ref, d: U8 iso^, e: I8 tag!)
   (use 
     name: (identifier)
     return_type: (typeargs
-      (type name: (identifier)))
+      (type (nominal_type name: (identifier))))
     params: (params 
-      (param (identifier) (type name: (identifier)))
-      (param (identifier) (type name: (identifier)))
-      (param (identifier) (type name: (identifier) cap: (cap)))
-      (param (identifier) (type name: (identifier) cap: (cap)))
-      (param (identifier) (type name: (identifier) cap: (cap)))
+      (param (identifier) (type (nominal_type name: (identifier))))
+      (param (identifier) (type (nominal_type name: (identifier))))
+      (param (identifier) (type (nominal_type name: (identifier) cap: (cap))))
+      (param (identifier) (type (nominal_type name: (identifier) cap: (cap))))
+      (param (identifier) (type (nominal_type name: (identifier) cap: (cap))))
     ))
 )
 
@@ -32,7 +32,12 @@ use @union_type[(U8 | I8)]()
   (use
     name: (identifier)
     return_type: (typeargs
-      (type (union_type name: (identifier) name: (identifier)))
+      (type 
+        (union_type 
+          (nominal_type name: (identifier))
+          (nominal_type name: (identifier))
+        )
+      )
     )
   )
 )
@@ -49,7 +54,12 @@ use @union_type[(U8 & I8)]()
   (use
     name: (identifier)
     return_type: (typeargs
-      (type (isect_type name: (identifier) name: (identifier)))
+      (type
+        (isect_type
+          (nominal_type name: (identifier))
+          (nominal_type name: (identifier))
+        )
+      )
     )
   )
 )
@@ -66,7 +76,15 @@ use @tuple_type[(Foo, (Bar | Baz))]()
   (use
     name: (identifier)
     return_type: (typeargs
-      (type (tuple_type name: (identifier) (union_type name: (identifier) name: (identifier))))
+      (type 
+        (tuple_type 
+          (nominal_type name: (identifier))
+          (union_type 
+            (nominal_type name: (identifier))
+            (nominal_type name: (identifier))
+          )
+        )
+      )
     )
   )
 )
@@ -83,7 +101,7 @@ use @grouped[(Foo)]()
   (use
     name: (identifier)
     return_type: (typeargs
-      (type name: (identifier))
+      (type (nominal_type name: (identifier)))
     )
   )
 )

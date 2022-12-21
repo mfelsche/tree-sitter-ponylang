@@ -1,0 +1,26 @@
+======
+Simple
+======
+
+actor Main
+ new create(env: Env) => None
+
+---
+
+(source_file
+    (entity
+        entity_type: (entity_type)
+        name: (identifier)
+        methods: (methods
+            (constructor
+              name: (identifier)
+              params: (params
+                (param
+                  (identifier)
+                  (type
+                    (nominal_type name: (identifier)))))
+              body: (block (identifier))
+            )
+        )
+    )
+)

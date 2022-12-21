@@ -22,15 +22,15 @@ actor Main
   fun ref awesome(): Bool => true
   // <- keyword
   //  ^ keyword
-  //      ^ function
-  //         ^ punctuation.bracket
-  //          ^ punctuation.bracket
-  //             ^ type
-  //                     ^ constant
+  //      ^ function.method
+  //             ^ punctuation.bracket
+  //              ^ punctuation.bracket
+  //                 ^ type
+  //                         ^ constant.builtin
 
   be yeah[Arg: Constraint](foo: Array[U8]) =>
   // <- keyword
-  //  ^ function
+  //  ^ function.method
   //      ^ type
   //           ^ type
   //                       ^ variable.parameter

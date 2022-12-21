@@ -31,7 +31,7 @@ actor Main
 ---
 
 (source_file 
-  (string) 
+  docstring: (string) 
   (entity 
     entity_type: (entity_type)
     name: (identifier) 
@@ -39,41 +39,43 @@ actor Main
     fields: (fields 
       (field 
         name: (identifier) 
-        type: (type name: (identifier)) 
+        type: (type (nominal_type name: (identifier)))
         docstring: (string)
       )
       (field 
         name: (identifier)
         type: (type 
-          name: (identifier) 
-          cap: (cap)) 
+          (nominal_type
+              name: (identifier) 
+              cap: (cap))
+          )
         default: (string)
         docstring: (string)
       )
       (field 
         name: (identifier) 
-        type: (type (isect_type name: (identifier) name: (identifier) typeargs: (typeargs (type name: (identifier)))))
+        type: (type (isect_type (nominal_type name: (identifier)) (nominal_type name: (identifier) typeargs: (typeargs (type (nominal_type name: (identifier)))))))
       )
     )
     methods: (methods
-      (method 
+      (constructor 
         receiver_cap: (cap)
         name: (identifier) 
-        params: (params (param (identifier) (type name: (identifier)))) 
+        params: (params (param (identifier) (type (nominal_type name: (identifier)))))
         body: (block 
           (string) 
           (consume (identifier)))
       )
-      (method
+      (behavior
         name: (identifier)
         typeparams: (typeparams
          (typeparam
            name: (identifier)
-           constraint: (type name: (identifier))
+           constraint: (type (nominal_type name: (identifier)))
          )
         )
         params: (params
-         (param (identifier) (type name: (identifier)))
+         (param (identifier) (type (nominal_type name: (identifier))))
         )
         body: (block (string))
      )
@@ -97,5 +99,71 @@ actor Main
     foo~partial(56.7)
 ---
 (source_file
-  (use (string) 'if' (identifier))
+  (use 
+    specifier: (string)
+    condition: (identifier))
+  (entity 
+    entity_type: (entity_type)
+    name: (identifier)
+    methods: (methods
+      (constructor
+        name: (identifier)
+        params: (params (param (identifier) (type (nominal_type name: (identifier)))))
+        body: (block
+          (call
+            callee: (field_access
+                       base: (field_access
+                                base: (identifier)
+                                field: (identifier))
+                       field: (identifier)
+            )
+            positional: (positional_args
+              (block
+                (binop
+                  lhs: (string)
+                  rhs: (number)
+                )
+              )
+            )
+          )
+        )
+      )
+      (method
+        receiver_cap: (cap)
+        name: (identifier)
+        return_type: (type (nominal_type name: (identifier)))
+        body: (block (bool))
+      )
+      (behavior
+        name: (identifier)
+        typeparams: (typeparams
+          (typeparam
+            name: (identifier)
+            constraint: (type (nominal_type name: (identifier)))
+          )
+        )
+        params: (params
+          (param
+            (identifier)
+            (type
+              (nominal_type
+                name: (identifier)
+                typeargs: (typeargs
+                  (type (nominal_type name: (identifier)))
+                )
+              )
+            )
+          )
+        )
+        body: (block
+          (call
+            callee: (partial_application (identifier) (identifier))
+            positional: (positional_args
+              (block (number))
+            )
+          )
+        )
+      )
+    )
+  )
 )
