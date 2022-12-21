@@ -231,6 +231,124 @@
           }
         ]
       },
+      "operator": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "%",
+            "named": false
+          },
+          {
+            "type": "%%",
+            "named": false
+          },
+          {
+            "type": "%%~",
+            "named": false
+          },
+          {
+            "type": "%~",
+            "named": false
+          },
+          {
+            "type": "*",
+            "named": false
+          },
+          {
+            "type": "*~",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "+~",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "-~",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "/~",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<<",
+            "named": false
+          },
+          {
+            "type": "<<~",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          },
+          {
+            "type": ">>",
+            "named": false
+          },
+          {
+            "type": ">>~",
+            "named": false
+          },
+          {
+            "type": "and",
+            "named": false
+          },
+          {
+            "type": "is",
+            "named": false
+          },
+          {
+            "type": "isnt",
+            "named": false
+          },
+          {
+            "type": "or",
+            "named": false
+          },
+          {
+            "type": "partial",
+            "named": true
+          },
+          {
+            "type": "xor",
+            "named": false
+          }
+        ]
+      },
       "rhs": {
         "multiple": false,
         "required": true,
@@ -241,16 +359,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "partial",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -604,32 +712,8 @@
         "required": true,
         "types": [
           {
-            "type": "actor",
-            "named": false
-          },
-          {
-            "type": "class",
-            "named": false
-          },
-          {
-            "type": "interface",
-            "named": false
-          },
-          {
-            "type": "primitive",
-            "named": false
-          },
-          {
-            "type": "struct",
-            "named": false
-          },
-          {
-            "type": "trait",
-            "named": false
-          },
-          {
-            "type": "type",
-            "named": false
+            "type": "entity_type",
+            "named": true
           }
         ]
       },
@@ -672,22 +756,33 @@
             "named": true
           }
         ]
+      },
+      "typeparams": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "typeparams",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
         {
           "type": "annotations",
           "named": true
-        },
-        {
-          "type": "typeparams",
-          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "entity_type",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "error",
@@ -1609,6 +1704,24 @@
           }
         ]
       },
+      "method_type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "be",
+            "named": false
+          },
+          {
+            "type": "fun",
+            "named": false
+          },
+          {
+            "type": "new",
+            "named": false
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1645,6 +1758,16 @@
         "types": [
           {
             "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "typeparams": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "typeparams",
             "named": true
           }
         ]
@@ -2378,7 +2501,34 @@
   {
     "type": "unary_op",
     "named": true,
-    "fields": {},
+    "fields": {
+      "operator": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "-~",
+            "named": false
+          },
+          {
+            "type": "digestof",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -2768,6 +2918,10 @@
     "named": false
   },
   {
+    "type": "!=",
+    "named": false
+  },
+  {
     "type": "#alias",
     "named": false
   },
@@ -2788,6 +2942,22 @@
     "named": false
   },
   {
+    "type": "%",
+    "named": false
+  },
+  {
+    "type": "%%",
+    "named": false
+  },
+  {
+    "type": "%%~",
+    "named": false
+  },
+  {
+    "type": "%~",
+    "named": false
+  },
+  {
     "type": "&",
     "named": false
   },
@@ -2797,6 +2967,22 @@
   },
   {
     "type": ")",
+    "named": false
+  },
+  {
+    "type": "*",
+    "named": false
+  },
+  {
+    "type": "*~",
+    "named": false
+  },
+  {
+    "type": "+",
+    "named": false
+  },
+  {
+    "type": "+~",
     "named": false
   },
   {
@@ -2824,6 +3010,14 @@
     "named": false
   },
   {
+    "type": "/",
+    "named": false
+  },
+  {
+    "type": "/~",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -2832,7 +3026,23 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
     "type": "<:",
+    "named": false
+  },
+  {
+    "type": "<<",
+    "named": false
+  },
+  {
+    "type": "<<~",
+    "named": false
+  },
+  {
+    "type": "<=",
     "named": false
   },
   {
@@ -2840,7 +3050,27 @@
     "named": false
   },
   {
+    "type": "==",
+    "named": false
+  },
+  {
     "type": "=>",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": ">=",
+    "named": false
+  },
+  {
+    "type": ">>",
+    "named": false
+  },
+  {
+    "type": ">>~",
     "named": false
   },
   {
@@ -2873,6 +3103,10 @@
   },
   {
     "type": "actor",
+    "named": false
+  },
+  {
+    "type": "and",
     "named": false
   },
   {
@@ -3016,6 +3250,10 @@
     "named": false
   },
   {
+    "type": "or",
+    "named": false
+  },
+  {
     "type": "partial",
     "named": true
   },
@@ -3060,7 +3298,7 @@
     "named": false
   },
   {
-    "type": "trait",
+    "type": "trai t",
     "named": false
   },
   {
@@ -3101,6 +3339,10 @@
   },
   {
     "type": "with",
+    "named": false
+  },
+  {
+    "type": "xor",
     "named": false
   },
   {

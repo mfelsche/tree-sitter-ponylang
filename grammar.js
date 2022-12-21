@@ -515,12 +515,12 @@ module.exports = grammar({
         grouped: $ => seq(
             '(', $.block, ')'
         ),
-        _partial_ops: $ => token(choice(
+        _partial_ops: $ => choice(
             'and',
             'or',
             'xor',
             '+',
-            'te-',
+            '-',
             '/',
             '*',
             '%',
@@ -540,19 +540,19 @@ module.exports = grammar({
             '>',
             '<',
             '>=',
-            '<=')),
+            '<='),
         // binary operation
         binop: $ => prec.left(1, seq(
             field('lhs', $._term),
-            choice(
+            field('operator', choice(
                 seq($._partial_ops, optional($.partial)),
                 choice('is', 'isnt')
-            ),
+            )),
             field('rhs', $._term)
         )),
         unary_op: $ => prec.left(
             seq(
-                choice('!', '&', '-', '-~', 'digestof'),
+                field('operator', choice('!', '&', '-', '-~', 'digestof')),
                 $._term
             )
         ),
@@ -597,7 +597,7 @@ module.exports = grammar({
         ),
         typeparams: $ => seq('[', $.typeparam, repeat(seq(',', $.typeparam)), ']'),
         typeargs: $ => seq('[', $.type, repeat(seq(',', $.type)), ']'), // TODO: const and literal typeargs
-        partial: $ => token('?'),
+        partial: $ => '?',
         _use_name: $ => seq(field('name', $.identifier), '='),
         _use_ffi: $ => seq('@',
             field("name", choice($.identifier, $.string)),
@@ -620,8 +620,9 @@ module.exports = grammar({
             optional(seq('=', field('default', $._term))),
             optional(field('docstring', $.string))
         ),
+        _method_type: $ => choice('fun', 'be', 'new'),
         method: $ => seq(
-            choice('fun', 'be', 'new'),
+            field('method_type', $._method_type),
             optional($.annotations),
             optional(
                 choice(
@@ -630,6 +631,7 @@ module.exports = grammar({
                 )
             ),
             field('name', $.identifier),
+            optional(field('typeparams', $.typeparams)),
             '(', optional(field('params', $.params)), ')',
             optional(seq(':', field('return_type', $.type))),
             optional($.partial),
@@ -651,13 +653,14 @@ module.exports = grammar({
         ),
         // TODO: split up into separate rules for each entity kind for having cleaner rules
         // and not 1 rule with everything mangled
+        entity_type: $ => choice('type', 'interface', 'trai t', 'primitive', 'struct', 'class', 'actor'),
         entity: $ => seq(
-            field('entity_type', choice('type', 'interface', 'trait', 'primitive', 'struct', 'class', 'actor')),
+            field('entity_type', $.entity_type),
             optional($.annotations),
             optional(token('@')),
             optional(field('default_cap', $.cap)),
             field('name', $.identifier),
-            optional($.typeparams),
+            optional(field('typeparams', $.typeparams)),
             optional(seq('is', field('provides', $.type))),
             optional(field('docstring', $.string)),
             optional(field('fields', $.fields)),

@@ -19,17 +19,21 @@ actor Main
     """
   embed z: (U8 & Real[U8])
 
-  new create(env: Env) =>
+  new ref create(env: Env) =>
     """
     constructor docstring
     """
     consume env
+
+  be with_param[Type: Constraint](arg: Type) =>
+    "snot"
 
 ---
 
 (source_file 
   (string) 
   (entity 
+    entity_type: (entity_type)
     name: (identifier) 
     docstring: (string) 
     fields: (fields 
@@ -53,12 +57,45 @@ actor Main
     )
     methods: (methods
       (method 
+        receiver_cap: (cap)
         name: (identifier) 
         params: (params (param (identifier) (type name: (identifier)))) 
         body: (block 
           (string) 
           (consume (identifier)))
       )
+      (method
+        name: (identifier)
+        typeparams: (typeparams
+         (typeparam
+           name: (identifier)
+           constraint: (type name: (identifier))
+         )
+        )
+        params: (params
+         (param (identifier) (type name: (identifier)))
+        )
+        body: (block (string))
+     )
     )
   )
+)
+
+=============
+Method quirks
+=============
+
+use "collection" if windows
+
+actor Main
+  new create(env: Env) =>
+    env.out.print("awesome" * 2)
+
+  fun ref awesome(): Bool => true
+
+  be yeah[Arg: Constraint](foo: Array[U8]) =>
+    foo~partial(56.7)
+---
+(source_file
+  (use (string) 'if' (identifier))
 )

@@ -21,6 +21,7 @@
       "file-types": [
         "pony"
       ],
+      "content-regex": "^actor Main$",
       "scope": "source.pony"
     }
   ],
