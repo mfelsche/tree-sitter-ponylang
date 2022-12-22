@@ -196,20 +196,35 @@
   {
     "type": "assignment",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "_term",
-          "named": true
-        },
-        {
-          "type": "assignment",
-          "named": true
-        }
-      ]
+    "fields": {
+      "left": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          }
+        ]
+      },
+      "right": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          },
+          {
+            "type": "assignment",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -227,16 +242,6 @@
         "types": [
           {
             "type": "block",
-            "named": true
-          }
-        ]
-      },
-      "docstring": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "string",
             "named": true
           }
         ]
@@ -620,16 +625,6 @@
         "types": [
           {
             "type": "block",
-            "named": true
-          }
-        ]
-      },
-      "docstring": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "string",
             "named": true
           }
         ]
@@ -1765,16 +1760,6 @@
         "types": [
           {
             "type": "block",
-            "named": true
-          }
-        ]
-      },
-      "docstring": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "string",
             "named": true
           }
         ]

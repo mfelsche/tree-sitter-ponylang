@@ -114,9 +114,9 @@
 ;; strings/docstrings
 (source_file docstring: (string) @string.special)
 (entity docstring: (string) @string.special)
-(constructor docstring: (string) @string.special)
-(method docstring: (string) @string.special)
-(behavior docstring: (string) @string.special)
+(constructor body: (block . (string) @string.special))
+(method body: (block . (string) @string.special))
+(behavior body: (block . (string) @string.special))
 (field docstring: (string) @string.special)
 (string) @string
 

@@ -1,4 +1,5 @@
 const PREC = {
+  assign: 3,
   binary_op: 4,
   unary_op: 6,
   call: 7,
@@ -113,14 +114,14 @@ module.exports = grammar({
             $.compile_intrinsic,
             $.compile_error
         ),
-        assignment: $ => seq(
-            $._term,
+        assignment: $ => prec.right(PREC.assign, seq(
+            field('left', $._block_expr),
             seq(
                 '=',
-                $.assignment
+                field('right', prec.right($._block_expr))
             )
-        ),
-        _block_expr: $ => prec(2, choice(
+        )),
+        _block_expr: $ => prec.right(choice(
             $._term,
             $.assignment
         )),
@@ -128,12 +129,10 @@ module.exports = grammar({
             $._block_expr,
             repeat(seq(optional(';'), $._block_expr))
         )),
-        block: $ => prec.right(
-            choice(
-                seq($._block_exprs, optional($._jump)),
-                $._jump
-            )
-        ),
+        block: $ => prec.right(choice(
+            seq($._block_exprs, optional($._jump)),
+            $._jump
+        )),
         annotations: $ => seq('\\', commaSep1($.identifier)),
         recover: $ => seq('recover', optional($.annotations), optional($.cap), $.block, 'end'),
         // id or sequence of ids
@@ -630,7 +629,6 @@ module.exports = grammar({
             '(', optional(field('params', $.params)), ')',
             optional(seq(':', field('return_type', $.type))),
             optional($.partial),
-            optional(field('docstring', $.string)),
             optional(seq('=>', field('body', $.block)))
         ),
         fields: $ => repeat1($.field),
