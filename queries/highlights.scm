@@ -129,6 +129,7 @@
 (nominal_type name: (identifier) @type)
 (typeparams (typeparam name: (identifier) @type))
 (entity name: (identifier) @type)
+;(type) @type
 
 
 

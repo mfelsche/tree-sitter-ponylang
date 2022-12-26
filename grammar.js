@@ -64,9 +64,9 @@ module.exports = grammar({
             optional(field('name', $.identifier)),
             optional(field('typeparams', $.typeparams)),
             '(',
-            commaSep1($._inner_type),
+                field('argument_types', commaSep1($.type)),
             ')',
-            optional(seq(':', field('return_type', $._inner_type))),
+            optional(seq(':', field('return_type', $.type))),
             optional($.partial),
             '}',
             optional($._type_cap)
@@ -74,7 +74,7 @@ module.exports = grammar({
         // ponyc rule: type
         _inner_type: $ => seq(
             choice(
-                'this', 
+                $.this, 
                 $.cap, 
                 $.nominal_type, 
                 $._grouped_type, 
@@ -365,6 +365,7 @@ module.exports = grammar({
                 optional(/[eE][+-]?\d+/)
             ))
         },
+        // TODO: character literals
         _literal: $ => choice(
             $.bool,
             $.number,
@@ -382,8 +383,48 @@ module.exports = grammar({
             $.block,
             ']'
         ),
-        // TODO
-        lambda: $ => seq('{', '}'),
+        // differs from param in that the type is optional
+        lambdaparam: $ => seq(
+            field('name', $.identifier),
+            optional(
+                seq(
+                    ':',
+                    field('type', $.type)
+                )
+            ),
+            optional(
+                seq(
+                    '=',
+                    field('default', $._term)
+                )
+            )
+        ),
+        this: $ => 'this',
+        lambdacapture: $ => seq(
+            field('name', $.identifier),
+            optional(seq(':', field('type', $.type))),
+            optional(seq('=', field('value', $._term)))
+        ),
+        _lambdacaptures: $ => seq(
+            '(',
+            commaSep1(choice($.lambdacapture, $.this)),
+            ')'
+        ),
+        lambda: $ => seq(
+            '{', 
+            optional($.annotations),
+            optional(field('receiver_cap', $.cap)),
+            optional(field('name', $.identifier)),
+            optional(field('typeparams', $.typeparams)),
+            '(', optional(field('params', commaSep1($.lambdaparam))), ')',
+            optional(field('captures', $._lambdacaptures)),
+            optional(seq(':', field('return_type', $.type))),
+            optional($.partial),
+            '=>',
+            field('body', $.block),
+            '}',
+            optional(field('refcap', $.cap))
+        ),
         // TODO
         barelambda: $ => seq('@{', '}'),
         ffi_call: $ => seq(
@@ -472,7 +513,7 @@ module.exports = grammar({
         _term: $ => choice(
             $.unary_op,
             $.identifier, // reference
-            'this',
+            $.this,
             $._literal,
             $.array,
             $.object,
@@ -498,12 +539,16 @@ module.exports = grammar({
             $.partial_application,
             $.chain,
             $.call,
+            $.tuple,
             $.grouped,
             $.term_with_typeargs
             // TODO: const_expr (not yet supported in ponyc)
         ),
         grouped: $ => seq(
             '(', $.block, ')'
+        ),
+        tuple: $ => seq(
+            '(', sep2(',', $.block), ')',
         ),
         _partial_ops: $ => choice(
             'and',
