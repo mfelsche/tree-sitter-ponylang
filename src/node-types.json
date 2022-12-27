@@ -36,6 +36,10 @@
         "named": true
       },
       {
+        "type": "character",
+        "named": true
+      },
+      {
         "type": "consume",
         "named": true
       },
@@ -3202,6 +3206,10 @@
   {
     "type": "break",
     "named": false
+  },
+  {
+    "type": "character",
+    "named": true
   },
   {
     "type": "class",

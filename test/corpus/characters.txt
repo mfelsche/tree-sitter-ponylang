@@ -1,0 +1,40 @@
+=================
+Character Literal
+=================
+
+use "snot" if 'A'
+
+---
+(source_file
+  (use
+    specifier: (string)
+    condition: (character)
+  )
+)
+
+=================
+Character Escapes
+=================
+
+use "snot" if '\xFF\''
+---
+(source_file
+  (use
+    specifier: (string)
+    condition: (character)
+  )
+)
+
+====================
+Multibyte Characters
+====================
+
+use "snot" if 'A\nBCDEFGH'
+---
+(source_file
+  (use
+    specifier: (string)
+    condition: (character)
+  )
+)
+

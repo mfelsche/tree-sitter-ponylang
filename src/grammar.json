@@ -2221,6 +2221,10 @@
         {
           "type": "SYMBOL",
           "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "character"
         }
       ]
     },
@@ -4433,6 +4437,10 @@
     {
       "type": "SYMBOL",
       "name": "string"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "character"
     }
   ],
   "inline": [],

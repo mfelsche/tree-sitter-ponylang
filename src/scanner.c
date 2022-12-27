@@ -1,9 +1,11 @@
 #include <tree_sitter/parser.h>
 #include <wctype.h>
+#include <stdio.h>
 
 enum TokenType {
   BLOCK_COMMENT,
-  STRING
+  STRING,
+  CHARACTER
 };
 
 bool tree_sitter_ponylang_external_scanner_scan(
@@ -70,83 +72,124 @@ bool tree_sitter_ponylang_external_scanner_scan(
     }
   }
 
-  // handle strings, docstrings and quoting
-  if (!valid_symbols[STRING]) return false;
-
-  uint32_t quote_count = 0;
-  while (lexer->lookahead == '"' && quote_count < 3) {
-    quote_count++;
-    lexer->advance(lexer, false);
-  }
-
-  switch (quote_count)
+  if (valid_symbols[CHARACTER] && lexer->lookahead == '\'')
   {
-    case 2:
-      // empty string
-      lexer->result_symbol = STRING;
-      return true;
-    case 1:
-      // single quote string - handle quoting
+    // CHARACTER LITERAL 'A'
+    lexer->advance(lexer, false);
+    bool inside_escape = false;
+    for (;;)
+    {
+      switch(lexer->lookahead)
       {
-        bool escaped_quote = false;
-        for (;;)
-        {
-          switch(lexer->lookahead)
-          {
-            case '\0':
-              return false;
-            case '\\':
-              lexer->advance(lexer, false);
-              // toggle, as we are getting out of a quote when we have double
-              // backslashes
-              escaped_quote = !escaped_quote;
-              break;
-            case '"':
-              lexer->advance(lexer, false);
-              if (!escaped_quote)
-              {
-                // terminating quote
-                lexer->result_symbol = STRING;
-                return true;
-              }
-              else
-              {
-                // we now leave the escaped quote
-                escaped_quote = false;
-              }
-            default:
-              lexer->advance(lexer, false);
-              escaped_quote = false;
-              break;
-          }
-        }
-
-        break;
-      }
-    case 3:
-      // within docstring - no quoting
-      {
-        quote_count = 0;
-        while (quote_count < 3) {
-          if (lexer->lookahead == '"') {
-            quote_count++;
-            lexer->advance(lexer, false);
-          } else {
-            quote_count = 0;
-            if (lexer->lookahead == 0) return false;
-            lexer->advance(lexer, false);
-          }
-        }
-        // consume additional quotes
-        while (lexer->lookahead == '"')
+        case '\0':
+          return false;
+        case '\\':
+          // escape
           lexer->advance(lexer, false);
+          // toggle, as we are getting out of a quote when we have double
+          // backslashes
+          inside_escape = !inside_escape;
+          break;
+        case '\'':
+          lexer->advance(lexer, false);
+          // terminating single-quote
+          if(!inside_escape)
+          {
+            lexer->result_symbol = CHARACTER;
+            return true;
+          }
+          else
+          {
+            // leaving the escaped quote
+            inside_escape = false;
+          }
+          break;
+        default:
+          lexer->advance(lexer, false);
+          inside_escape = false;
+          break;
+      }
+    }
+  }
+  else if (valid_symbols[STRING])
+  {
+    // handle strings, docstrings and quoting
+    uint32_t quote_count = 0;
+    while (lexer->lookahead == '"' && quote_count < 3) {
+      quote_count++;
+      lexer->advance(lexer, false);
+    }
 
+    switch (quote_count)
+    {
+      case 2:
+        // empty string
         lexer->result_symbol = STRING;
         return true;
-      }
-    default:
-      // no quote
-      return false;
+      case 1:
+        // single quote string - handle quoting
+        {
+          bool escaped_quote = false;
+          for (;;)
+          {
+            switch(lexer->lookahead)
+            {
+              case '\0':
+                return false;
+              case '\\':
+                lexer->advance(lexer, false);
+                // toggle, as we are getting out of a quote when we have double
+                // backslashes
+                escaped_quote = !escaped_quote;
+                break;
+              case '"':
+                lexer->advance(lexer, false);
+                if (!escaped_quote)
+                {
+                  // terminating quote
+                  lexer->result_symbol = STRING;
+                  return true;
+                }
+                else
+                {
+                  // we now leave the escaped quote
+                  escaped_quote = false;
+                }
+                break;
+              default:
+                lexer->advance(lexer, false);
+                escaped_quote = false;
+                break;
+            }
+          }
+
+          break;
+        }
+      case 3:
+        // within docstring - no quoting
+        {
+          quote_count = 0;
+          while (quote_count < 3) {
+            if (lexer->lookahead == '"') {
+              quote_count++;
+              lexer->advance(lexer, false);
+            } else {
+              quote_count = 0;
+              if (lexer->lookahead == 0) return false;
+              lexer->advance(lexer, false);
+            }
+          }
+          // consume additional quotes
+          while (lexer->lookahead == '"')
+            lexer->advance(lexer, false);
+
+          lexer->result_symbol = STRING;
+          return true;
+        }
+      default:
+        // no quote
+        return false;
+    }
   }
   return false;
 }

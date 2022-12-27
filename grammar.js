@@ -12,7 +12,8 @@ module.exports = grammar({
     extras: $ => [/\s|\\\n/, $.line_comment, $.block_comment],
     externals: $ => [
         $.block_comment,
-        $.string
+        $.string,
+        $.character
     ],
     conflicts: $ => [
         //[$.atom, $._term]
@@ -365,11 +366,11 @@ module.exports = grammar({
                 optional(/[eE][+-]?\d+/)
             ))
         },
-        // TODO: character literals
         _literal: $ => choice(
             $.bool,
             $.number,
-            $.string
+            $.string,
+            $.character
         ),
         array: $ => seq(
             '[',
