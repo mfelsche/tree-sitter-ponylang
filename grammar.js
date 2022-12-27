@@ -34,21 +34,13 @@ module.exports = grammar({
         // type
         cap: $ => choice('iso', 'trn', 'ref', 'val', 'box', 'tag'),
         gencap: $ => choice('#read', '#send', '#share', '#alias', '#any'),
-        _type_cap: $ => prec.right(
-            seq(
-                choice(
-                    $.cap, 
-                    $.gencap
-                ), 
-                optional(choice('^', '!'))
-            )
-        ),
+        _type_cap: $ => choice($.cap, $.gencap),
         ephemeral: $ => '^',
         aliased:   $ => '!',
         nominal_type: $ => prec.right(seq(
             field('name', sep1('.', $.identifier)),
             optional(field('typeargs', $.typeargs)),
-            optional(field('cap', $._type_cap)),
+            optional(field('cap', choice($.cap, $.gencap))),
             optional(field('modifier', choice($.ephemeral, $.aliased)))
         )),
         union_type: $ => sep2('|', $._inner_type),
@@ -70,12 +62,13 @@ module.exports = grammar({
             optional(field('name', $.identifier)),
             optional(field('typeparams', $.typeparams)),
             '(',
-                field('argument_types', commaSep1($.type)),
+                optional(field('argument_types', commaSep1($.type))),
             ')',
             optional(seq(':', field('return_type', $.type))),
             optional($.partial),
             '}',
-            optional($._type_cap)
+            optional(choice($.cap, $.gencap)),
+            optional(choice($.ephemeral, $.aliased))
         ),
         // ponyc rule: type
         _inner_type: $ => seq(
@@ -415,8 +408,7 @@ module.exports = grammar({
             commaSep1(choice($.lambdacapture, $.this)),
             ')'
         ),
-        lambda: $ => seq(
-            '{', 
+        _lambdacommon: $ => seq(
             optional($.annotations),
             optional(field('receiver_cap', $.cap)),
             optional(field('name', $.identifier)),
@@ -430,8 +422,14 @@ module.exports = grammar({
             '}',
             optional(field('refcap', $.cap))
         ),
-        // TODO
-        barelambda: $ => seq('@{', '}'),
+        lambda: $ => seq(
+            '{', 
+            $._lambdacommon
+        ),
+        barelambda: $ => seq(
+            '@{',
+            $._lambdacommon
+        ),
         ffi_call: $ => seq(
             '@',
             field('name', choice($.string, $.identifier)),

@@ -142,11 +142,6 @@
     ]
   },
   {
-    "type": "aliased",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "annotations",
     "named": true,
     "fields": {},
@@ -243,7 +238,122 @@
   {
     "type": "barelambda",
     "named": true,
-    "fields": {}
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "block",
+            "named": true
+          }
+        ]
+      },
+      "captures": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "lambdacapture",
+            "named": true
+          },
+          {
+            "type": "this",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
+      },
+      "params": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": ",",
+            "named": false
+          },
+          {
+            "type": "lambdaparam",
+            "named": true
+          }
+        ]
+      },
+      "receiver_cap": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "cap",
+            "named": true
+          }
+        ]
+      },
+      "refcap": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "cap",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      },
+      "typeparams": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "typeparams",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        },
+        {
+          "type": "partial",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "behavior",
@@ -1028,11 +1138,6 @@
     "fields": {}
   },
   {
-    "type": "ephemeral",
-    "named": true,
-    "fields": {}
-  },
-  {
     "type": "error",
     "named": true,
     "fields": {},
@@ -1669,7 +1774,7 @@
     "fields": {
       "argument_types": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": ",",
@@ -1717,7 +1822,15 @@
       "required": false,
       "types": [
         {
+          "type": "aliased",
+          "named": true
+        },
+        {
           "type": "cap",
+          "named": true
+        },
+        {
+          "type": "ephemeral",
           "named": true
         },
         {
@@ -2074,17 +2187,9 @@
     "named": true,
     "fields": {
       "cap": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
-          {
-            "type": "!",
-            "named": false
-          },
-          {
-            "type": "^",
-            "named": false
-          },
           {
             "type": "cap",
             "named": true
@@ -3062,10 +3167,6 @@
     }
   },
   {
-    "type": "!",
-    "named": false
-  },
-  {
     "type": "!=",
     "named": false
   },
@@ -3270,10 +3371,6 @@
     "named": false
   },
   {
-    "type": "^",
-    "named": false
-  },
-  {
     "type": "__loc",
     "named": false
   },
@@ -3284,6 +3381,10 @@
   {
     "type": "addressof",
     "named": false
+  },
+  {
+    "type": "aliased",
+    "named": true
   },
   {
     "type": "and",
@@ -3356,6 +3457,10 @@
   {
     "type": "end",
     "named": false
+  },
+  {
+    "type": "ephemeral",
+    "named": true
   },
   {
     "type": "error",

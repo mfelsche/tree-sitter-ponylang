@@ -105,3 +105,28 @@ class Lambda
     )
   )
 )
+
+========
+No Args
+========
+
+class Lambda
+  let throw_fn: {ref ()} = {() => None } ref
+---
+
+(source_file
+  (entity
+    entity_type: (entity_type)
+    name: (identifier)
+    fields: (fields
+      (field
+        name: (identifier)
+        type: (type (lambda_type (cap)))
+        default: (lambda
+          body: (block (identifier))
+          refcap: (cap)
+        )
+      )
+    )
+  )
+)
