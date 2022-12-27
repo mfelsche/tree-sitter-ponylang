@@ -675,6 +675,8 @@ module.exports = grammar({
             '(', optional(field('params', $.params)), ')',
             optional(seq(':', field('return_type', $.type))),
             optional($.partial),
+            // docstring for functions without body
+            optional(field('docstring', $.string)),
             optional(seq('=>', field('body', $.block)))
         ),
         fields: $ => repeat1($.field),
