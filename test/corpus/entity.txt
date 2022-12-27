@@ -310,3 +310,19 @@ interface Notify
     )
   )
 )
+
+=========
+Annotated
+=========
+
+actor \nodoc\ Main is TestList
+
+---
+(source_file
+  (entity
+    entity_type: (entity_type)
+    (annotations (identifier))
+    name: (identifier)
+    provides: (type (nominal_type name: (identifier)))
+  )
+)

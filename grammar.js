@@ -134,7 +134,7 @@ module.exports = grammar({
             seq($._block_exprs, optional($._jump)),
             $._jump
         )),
-        annotations: $ => seq('\\', commaSep1($.identifier)),
+        annotations: $ => seq('\\', commaSep1($.identifier), '\\'),
         recover: $ => seq('recover', optional($.annotations), optional($.cap), $.block, 'end'),
         // id or sequence of ids
         idseq: $ => choice(
