@@ -15,3 +15,91 @@ use "snot" if not badger
   )
 )
 
+==============
+Array Literals
+==============
+
+use "snot" if [
+  [];
+  [1; 2; 3]
+]
+
+---
+(source_file
+  (use
+    specifier: (string)
+    condition: (array
+      (block
+        (array)
+        (array (block (number) (number) (number)))
+      )
+    )
+  )
+)
+
+===================
+Empty Array Literal
+===================
+
+use "" if []
+
+---
+(source_file
+  (use 
+    specifier: (string)
+    condition: (array)
+  )
+)
+
+===============
+Array Type Hint
+===============
+
+use "" if [as U8: 
+  13
+  12
+]
+---
+(source_file
+  (use 
+    specifier: (string)
+    condition: (array 
+      (type (nominal_type name: (identifier)))
+      (block (number) (number))
+    )
+  )
+)
+
+========
+If Block
+========
+
+primitive Foo
+  fun bar() =>
+    if "first_line"
+       true
+    then
+      "then"
+    end
+---
+
+(source_file
+  (entity
+    entity_type: (entity_type)
+    name: (identifier)
+    methods: (methods
+      (method
+        name: (identifier)
+        body: (block
+          (if
+            condition: (block
+              (string)
+              (bool))
+            if_block: (block (string))
+          )
+        )
+      )
+    )
+  )
+)
+

@@ -1,9 +1,11 @@
 const PREC = {
   assign: 3,
+  consume: 3,
   binary_op: 4,
   unary_op: 6,
   call: 7,
-  field: 7
+  field: 7,
+  typeargs: 7,
 };
 
 module.exports = grammar({
@@ -97,7 +99,7 @@ module.exports = grammar({
         //    field('rhs', $._term))
         //),
         consume: $ => prec(
-            3, 
+            PREC.consume,
             seq('consume', optional($.cap), $._term)
         ),
         // jumps
@@ -122,18 +124,15 @@ module.exports = grammar({
                 field('right', prec.right($._block_expr))
             )
         )),
-        _block_expr: $ => prec.right(choice(
+        _block_expr: $ => choice(
             $._term,
             $.assignment
-        )),
-        _block_exprs: $ => prec.right(seq(
-            $._block_expr,
-            repeat(seq(optional(';'), $._block_expr))
-        )),
-        block: $ => prec.right(choice(
+        ),
+        _block_exprs: $ => sep1(optional(';'), $._block_expr),
+        block: $ => choice(
             seq($._block_exprs, optional($._jump)),
             $._jump
-        )),
+        ),
         annotations: $ => seq('\\', commaSep1($.identifier), '\\'),
         recover: $ => seq('recover', optional($.annotations), optional($.cap), $.block, 'end'),
         // id or sequence of ids
@@ -345,10 +344,10 @@ module.exports = grammar({
             ')',
             optional($.partial)
         )),
-        term_with_typeargs: $ => seq(
+        term_with_typeargs: $ => prec(PREC.typeargs, seq(
             $._term,
             $.typeargs
-        ),
+        )),
         bool: $ => choice(
             'true',
             'false'
@@ -374,14 +373,16 @@ module.exports = grammar({
         ),
         array: $ => seq(
             '[',
-            optional(
                 seq(
-                    'as',
-                    $.type,
-                    ':'
-                )
-            ),
-            $.block,
+                    optional(
+                        seq(
+                            'as',
+                            $.type,
+                            ':'
+                        )
+                    ),
+                    optional($.block),
+                ),
             ']'
         ),
         // differs from param in that the type is optional
@@ -572,11 +573,19 @@ module.exports = grammar({
             '>>~',
             '<<~',
             '==',
+            '==~',
             '!=',
+            '!=~',
             '>',
+            '>~',
             '<',
+            '<',
+            '<~',
             '>=',
-            '<='),
+            '>=~',
+            '<=',
+            '<=~'
+        ),
         // binary operation
         binop: $ => prec.left(1, seq(
             field('lhs', $._term),
