@@ -1,5 +1,1 @@
-../ponyc/packages/buffered/_test.pony	1 ms	(ERROR [224, 6] - [224, 7])
-../ponyc/packages/serialise/serialise.pony	4 ms	(MISSING identifier [35, 15] - [35, 15])
-../ponyc/packages/itertools/iter.pony	9 ms	(MISSING identifier [721, 29] - [721, 29])
-../ponyc/packages/pony_check/property_helper.pony	5 ms	(MISSING identifier [117, 12] - [117, 12])
-../ponyc/packages/pony_check/generator.pony	3 ms	(MISSING identifier [323, 25] - [323, 25])
+../ponyc/packages/buffered/_test.pony	2 ms	(ERROR [224, 6] - [224, 7])
