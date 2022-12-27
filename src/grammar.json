@@ -150,6 +150,14 @@
         ]
       }
     },
+    "ephemeral": {
+      "type": "STRING",
+      "value": "^"
+    },
+    "aliased": {
+      "type": "STRING",
+      "value": "!"
+    },
     "nominal_type": {
       "type": "PREC_RIGHT",
       "value": 0,
@@ -210,6 +218,31 @@
                 "content": {
                   "type": "SYMBOL",
                   "name": "_type_cap"
+                }
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "modifier",
+                "content": {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "ephemeral"
+                    },
+                    {
+                      "type": "SYMBOL",
+                      "name": "aliased"
+                    }
+                  ]
                 }
               },
               {

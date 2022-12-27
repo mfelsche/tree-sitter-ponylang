@@ -116,3 +116,32 @@ use @grouped[(Foo)]()
     )
   )
 )
+
+==================
+Use ephemeral type
+==================
+
+use @snot[Iterator[this->A]^]()
+---
+(source_file 
+  (use
+    specifier: (use_ffi
+      name: (identifier)
+      return_type: (typeargs
+        (type 
+          (nominal_type 
+            name: (identifier)
+            typeargs: (typeargs
+              (type 
+                (this)
+                viewpoint: (nominal_type name: (identifier))
+              )
+            )
+            modifier: (ephemeral)
+          )
+        )
+      )
+    )
+  )
+)
+

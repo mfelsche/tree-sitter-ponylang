@@ -142,6 +142,11 @@
     ]
   },
   {
+    "type": "aliased",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "annotations",
     "named": true,
     "fields": {},
@@ -1019,6 +1024,11 @@
   },
   {
     "type": "entity_type",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ephemeral",
     "named": true,
     "fields": {}
   },
@@ -2081,6 +2091,20 @@
           },
           {
             "type": "gencap",
+            "named": true
+          }
+        ]
+      },
+      "modifier": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "aliased",
+            "named": true
+          },
+          {
+            "type": "ephemeral",
             "named": true
           }
         ]

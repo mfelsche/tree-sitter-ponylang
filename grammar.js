@@ -43,10 +43,13 @@ module.exports = grammar({
                 optional(choice('^', '!'))
             )
         ),
+        ephemeral: $ => '^',
+        aliased:   $ => '!',
         nominal_type: $ => prec.right(seq(
             field('name', sep1('.', $.identifier)),
             optional(field('typeargs', $.typeargs)),
-            optional(field('cap', $._type_cap))
+            optional(field('cap', $._type_cap)),
+            optional(field('modifier', choice($.ephemeral, $.aliased)))
         )),
         union_type: $ => sep2('|', $._inner_type),
         isect_type: $ => sep2('&', $._inner_type),
