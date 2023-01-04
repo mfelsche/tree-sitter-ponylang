@@ -20,8 +20,12 @@ Array Literals
 ==============
 
 use "snot" if [
-  [];
-  [1; 2; 3]
+  []
+  [
+    1
+    2
+    3
+  ]
 ]
 
 ---
@@ -32,6 +36,60 @@ use "snot" if [
       (block
         (array)
         (array (block (number) (number) (number)))
+      )
+    )
+  )
+)
+
+=======================
+Array Literals In Block
+=======================
+
+primitive Snot
+  fun foo() =>
+    []
+    []
+
+---
+
+(source_file
+  (entity
+    entity_type: (entity_type)
+    name: (identifier)
+    methods: (methods
+      (method
+        name: (identifier)
+        body: (block
+          (array)
+          (array)
+        )
+      )
+    )
+  )
+)
+
+=======================
+Strings In Block
+=======================
+
+primitive Snot
+  fun foo() =>
+    "foo"
+    "bar"
+
+---
+
+(source_file
+  (entity
+    entity_type: (entity_type)
+    name: (identifier)
+    methods: (methods
+      (method
+        name: (identifier)
+        body: (block
+          (string)
+          (string)
+        )
       )
     )
   )
@@ -103,3 +161,59 @@ primitive Foo
   )
 )
 
+
+================================
+Partial Application in Arguments
+================================
+
+primitive Foo
+  fun foo() =>
+    Promises[A].join(
+      [this]
+        .> concat(ps)
+        .values())
+---
+(source_file
+  (entity
+    entity_type: (entity_type)
+    name: (identifier)
+    methods: (methods
+      (method
+        name: (identifier)
+        body: (block
+          (call
+            callee: (field_access
+              base: (term_with_typeargs
+                base: (identifier)
+                (typeargs
+                  (type (nominal_type name: (identifier)))
+                )
+              )
+              field: (identifier)
+              )
+            positional: (positional_args
+              (block
+                (call
+                  callee: (field_access
+                    base: (call
+                      callee: (chain
+                        callee: (array
+                          (block (this))
+                        )
+                        (identifier)
+                      )
+                      positional: (positional_args
+                        (block (identifier))
+                      )
+                    )
+                    field: (identifier)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)

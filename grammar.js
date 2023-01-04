@@ -1,21 +1,23 @@
 const PREC = {
   assign: 3,
   consume: 3,
+  term: 4,
   binary_op: 4,
   unary_op: 6,
   call: 7,
   field: 7,
   typeargs: 7,
+  array: 9,
 };
 
 module.exports = grammar({
     name: 'ponylang',
 
-    extras: $ => [/\s|\\\n/, $.line_comment, $.block_comment],
+    extras: $ => [/[\s]|\\\r?\n/, $.line_comment, $.block_comment],
     externals: $ => [
         $.block_comment,
         $.string,
-        $.character
+        $.character,
     ],
     conflicts: $ => [
         //[$.atom, $._term]
@@ -73,7 +75,7 @@ module.exports = grammar({
         // ponyc rule: type
         _inner_type: $ => seq(
             choice(
-                $.this, 
+                $["this"], 
                 $.cap, 
                 $.nominal_type, 
                 $._grouped_type, 
@@ -126,7 +128,8 @@ module.exports = grammar({
         ),
         _block_exprs: $ => sep1(optional(';'), $._block_expr),
         block: $ => choice(
-            seq($._block_exprs, optional($._jump)),
+            $._block_exprs,
+            seq($._block_exprs, $._jump),
             $._jump
         ),
         annotations: $ => seq('\\', commaSep1($.identifier), '\\'),
@@ -317,12 +320,12 @@ module.exports = grammar({
             field('field', $.identifier)
         )),
         partial_application: $ => prec(PREC.call, seq(
-            $._term,
+            field('callee', $._term),
             '~', 
             $.identifier
         )),
         chain: $ => prec(PREC.call, seq(
-            $._term,
+            field('callee', $._term),
             '.>',
             $.identifier
         )),
@@ -341,7 +344,7 @@ module.exports = grammar({
             optional($.partial)
         )),
         term_with_typeargs: $ => prec(PREC.typeargs, seq(
-            $._term,
+            field('base', $._term),
             $.typeargs
         )),
         bool: $ => choice(
@@ -367,8 +370,8 @@ module.exports = grammar({
             $.string,
             $.character
         ),
-        array: $ => seq(
-            '[',
+        array: $ => prec(PREC.array, seq(
+             '[',
                 seq(
                     optional(
                         seq(
@@ -377,10 +380,10 @@ module.exports = grammar({
                             ':'
                         )
                     ),
-                    optional($.block),
+                    optional(prec.left($.block))
                 ),
             ']'
-        ),
+        )),
         // differs from param in that the type is optional
         lambdaparam: $ => seq(
             field('name', $.identifier),
@@ -397,7 +400,7 @@ module.exports = grammar({
                 )
             )
         ),
-        this: $ => 'this',
+        "this": $ => 'this',
         lambdacapture: $ => seq(
             field('name', $.identifier),
             optional(seq(':', field('type', $.type))),
@@ -405,7 +408,7 @@ module.exports = grammar({
         ),
         _lambdacaptures: $ => seq(
             '(',
-            commaSep1(choice($.lambdacapture, $.this)),
+            commaSep1(choice($.lambdacapture, $["this"])),
             ')'
         ),
         _lambdacommon: $ => seq(
@@ -513,17 +516,61 @@ module.exports = grammar({
             ),
             'end'
         ),
-        _term: $ => choice(
+        /*
+        _atom: $ => choice(
+            $.identifier,
+            $["this"],
+            $._literal,
+            $.grouped,
+            $.tuple,
+            $.array,
+            $.object,
+            $.lambda,
+            $.barelambda,
+            $.ffi_call,
+            $["location"],
+            $["if"],
+            $["while"],
+            $["repeat"],
+            $["for"]
+        ),
+        _prefix: $ => choice(
+            field('operator', 
+                choice('not', '-', '-~', 'addressof', 'digestof')
+            )
+        ),
+        _postfix: $ => seq(
+            $._atom,
+            repeat(
+              choice(
+                  $.field_access,
+                  $.partial_application,
+                  $.chain,
+                  $.call,
+                  $.term_with_typeargs
+              )
+            )
+        ),
+        _parampattern: $ => seq(
+            repeat($._prefix),
+            $._postfix
+        ),
+        _pattern: $ => choice(
+            $.local,
+            $._parampattern
+        ),*/
+        "location": $ => '__loc',
+        _term: $ => prec(PREC.term, choice(
             $.unary_op,
             $.identifier, // reference
-            $.this,
+            $["this"],
             $._literal,
             $.array,
             $.object,
             $.lambda,
             $.barelambda,
             $.ffi_call,
-            '__loc',
+            $["location"],
             $["if"],
             $.ifdef,
             $.iftype,
@@ -535,6 +582,7 @@ module.exports = grammar({
             $.try_block,
             $.recover,
             $.consume,
+            //$._pattern,
             $.local,
             $.binop,
             $.asop,
@@ -546,7 +594,7 @@ module.exports = grammar({
             $.grouped,
             $.term_with_typeargs
             // TODO: const_expr (not yet supported in ponyc)
-        ),
+        )),
         grouped: $ => seq(
             '(', $.block, ')'
         ),

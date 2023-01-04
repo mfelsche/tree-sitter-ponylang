@@ -5,7 +5,7 @@
 enum TokenType {
   BLOCK_COMMENT,
   STRING,
-  CHARACTER
+  CHARACTER,
 };
 
 bool tree_sitter_ponylang_external_scanner_scan(
@@ -20,7 +20,7 @@ bool tree_sitter_ponylang_external_scanner_scan(
   }
 
   // handle block comments
-  if (lexer->lookahead == '/')
+  if (valid_symbols[BLOCK_COMMENT] && lexer->lookahead == '/')
   {
     lexer->advance(lexer, false);
     if (lexer->lookahead != '*')

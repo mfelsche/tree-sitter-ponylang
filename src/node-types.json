@@ -4,10 +4,6 @@
     "named": true,
     "subtypes": [
       {
-        "type": "__loc",
-        "named": false
-      },
-      {
         "type": "array",
         "named": true
       },
@@ -81,6 +77,10 @@
       },
       {
         "type": "local",
+        "named": true
+      },
+      {
+        "type": "location",
         "named": true
       },
       {
@@ -730,13 +730,24 @@
   {
     "type": "chain",
     "named": true,
-    "fields": {},
+    "fields": {
+      "callee": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "_term",
+          "type": "identifier",
           "named": true
         }
       ]
@@ -2350,13 +2361,24 @@
   {
     "type": "partial_application",
     "named": true,
-    "fields": {},
+    "fields": {
+      "callee": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "_term",
+          "type": "identifier",
           "named": true
         }
       ]
@@ -2494,15 +2516,22 @@
   {
     "type": "term_with_typeargs",
     "named": true,
-    "fields": {},
+    "fields": {
+      "base": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "_term",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
-        {
-          "type": "_term",
-          "named": true
-        },
         {
           "type": "typeargs",
           "named": true
@@ -3371,10 +3400,6 @@
     "named": false
   },
   {
-    "type": "__loc",
-    "named": false
-  },
-  {
     "type": "actor",
     "named": false
   },
@@ -3520,6 +3545,10 @@
   },
   {
     "type": "line_comment",
+    "named": true
+  },
+  {
+    "type": "location",
     "named": true
   },
   {

@@ -44,7 +44,7 @@ primitive Lambda
         body: (block
           (call
             callee: (term_with_typeargs
-              (field_access
+              base: (field_access
                 base: (identifier)
                 field: (identifier)
               )
@@ -55,7 +55,7 @@ primitive Lambda
             positional: (positional_args
               (block
                 (term_with_typeargs
-                  (identifier)
+                  base: (identifier)
                   (typeargs (type (nominal_type name: (identifier))))
                 )
               )

@@ -106,6 +106,7 @@ actor Main
 
   be yeah[Arg: Constraint](foo: Array[U8]) =>
     foo~partial(56.7)
+
 ---
 (source_file
   (use 
@@ -171,7 +172,10 @@ actor Main
         )
         body: (block
           (call
-            callee: (partial_application (identifier) (identifier))
+            callee: (partial_application 
+              callee: (identifier) 
+              (identifier)
+            )
             positional: (positional_args
               (block (number))
             )
@@ -247,7 +251,7 @@ class MT is Random
             left: (identifier)
             right: (call
               callee: (term_with_typeargs
-                (identifier)
+                base: (identifier)
                 (typeargs
                   (type (nominal_type name: (identifier)))
                 )
