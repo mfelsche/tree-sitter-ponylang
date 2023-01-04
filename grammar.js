@@ -2,6 +2,8 @@ const PREC = {
   assign: 3,
   consume: 3,
   term: 4,
+  grouped: 4,
+  tuple: 4,
   binary_op: 4,
   unary_op: 6,
   call: 7,
@@ -18,9 +20,17 @@ module.exports = grammar({
         $.block_comment,
         $.string,
         $.character,
+        $.lparen, // '('
+        $.lparen_new, // '(' after newline
+        $.lsquare, // '['
+        $.lsquare_new
     ],
     conflicts: $ => [
-        //[$.atom, $._term]
+        [$.tuple, $.tuple_new],
+        [$.grouped, $.grouped_new],
+        [$.tuple, $.tuple_new],
+        [$.array, $.array_new],
+        [$._term, $._term_new],
     ],
     supertypes: $ => [
         $._term,
@@ -49,7 +59,7 @@ module.exports = grammar({
         isect_type: $ => sep2('&', $._inner_type),
         tuple_type: $ => sep2(',', $._inner_type),
         _grouped_type: $ => seq(
-            '(',
+            alias(choice($.lparen, $.lparen_new), '('),
             choice(
                 $._inner_type,
                 $.union_type,
@@ -63,8 +73,8 @@ module.exports = grammar({
             optional($.cap),
             optional(field('name', $.identifier)),
             optional(field('typeparams', $.typeparams)),
-            '(',
-                optional(field('argument_types', commaSep1($.type))),
+            alias(choice($.lparen, $.lparen_new), '('),
+            optional(field('argument_types', commaSep1($.type))),
             ')',
             optional(seq(':', field('return_type', $.type))),
             optional($.partial),
@@ -122,11 +132,32 @@ module.exports = grammar({
                 field('right', prec.right($._block_expr))
             )
         )),
+        assignment_new: $ => prec.right(PREC.assign,
+            seq(
+                field('left', $._block_expr_new),
+                seq(
+                    '=',
+                    field('right', prec.right($._block_expr))
+                )
+            )
+        ),
+        _block_expr_new: $ => choice(
+            $._term_new,
+            alias($.assignment_new, $.assignment)
+        ),
         _block_expr: $ => choice(
             $._term,
             $.assignment
         ),
-        _block_exprs: $ => sep1(optional(';'), $._block_expr),
+        _block_exprs: $ => seq(
+              $._block_expr,
+              repeat(
+                  choice(
+                      seq(';', $._block_expr),
+                      $._block_expr_new
+                  )
+              )
+          ),
         block: $ => choice(
             $._block_exprs,
             seq($._block_exprs, $._jump),
@@ -138,7 +169,7 @@ module.exports = grammar({
         idseq: $ => choice(
             $.identifier,
             seq(
-                '(',
+                alias(choice($.lparen, $.lparen_new), '('),
                 commaSep1($.identifier),
                 ')'
             )
@@ -331,7 +362,7 @@ module.exports = grammar({
         )),
         call: $ => prec(PREC.call, seq(
             field('callee', $._term),
-            '(',
+            alias($.lparen, '('),
             field('arguments', seq(
                 optional(
                     field('positional', $.positional_args)
@@ -370,8 +401,9 @@ module.exports = grammar({
             $.string,
             $.character
         ),
-        array: $ => prec(PREC.array, seq(
-             '[',
+        array_new: $ => prec(PREC.array,
+            seq(
+                alias($.lsquare_new, '['),
                 seq(
                     optional(
                         seq(
@@ -382,6 +414,21 @@ module.exports = grammar({
                     ),
                     optional(prec.left($.block))
                 ),
+                ']'
+            )
+        ),
+        array: $ => prec(PREC.array, seq(
+            alias(choice($.lsquare, $.lsquare_new), '['),
+            seq(
+                optional(
+                    seq(
+                        'as',
+                        $.type,
+                        ':'
+                    )
+                ),
+                optional(prec.left($.block))
+            ),
             ']'
         )),
         // differs from param in that the type is optional
@@ -407,7 +454,7 @@ module.exports = grammar({
             optional(seq('=', field('value', $._term)))
         ),
         _lambdacaptures: $ => seq(
-            '(',
+            alias(choice($.lparen, $.lparen_new), '('),
             commaSep1(choice($.lambdacapture, $["this"])),
             ')'
         ),
@@ -416,7 +463,9 @@ module.exports = grammar({
             optional(field('receiver_cap', $.cap)),
             optional(field('name', $.identifier)),
             optional(field('typeparams', $.typeparams)),
-            '(', optional(field('params', commaSep1($.lambdaparam))), ')',
+            alias(choice($.lparen, $.lparen_new), '('),
+            optional(field('params', commaSep1($.lambdaparam))), 
+            ')',
             optional(field('captures', $._lambdacaptures)),
             optional(seq(':', field('return_type', $.type))),
             optional($.partial),
@@ -436,7 +485,7 @@ module.exports = grammar({
         ffi_call: $ => seq(
             '@',
             field('name', choice($.string, $.identifier)),
-            '(',
+            alias(choice($.lparen, $.lparen_new), '('),
             field('arguments', seq(
                 optional(
                     field('positional', $.positional_args)
@@ -448,38 +497,6 @@ module.exports = grammar({
             ')',
             optional($.partial)
         ),
-        // ponyc rule: atom
-        //atom: $ => choice(
-        //    $.identifier, // reference
-        //    'this',
-        //    $.literal,
-        //    seq('(', $.block, ')'), // groupedexpr
-        //    $.array,
-        //    $.object,
-        //    $.lambda,
-        //    $.barelambda,
-        //    $.ffi_call,
-        //    '__loc',
-        //    $["if"],
-        //    $["while"],
-        //    $["repeat"],
-        //    $["for"]
-        //),
-        // ponyc rule: parampattern
-        //_parampattern: $ => prec.left(seq(
-        //   repeat(
-        //        choice('!', '&', '-', '-~', 'digestof')
-        //    ),
-        //    field("value", $.atom),
-        //    repeat(
-        //        $._postfix
-        //    )
-        //)),
-        //pattern: $ => choice(
-        //    $.local,
-        //    $.postfix
-        //),
-
         match_case: $ => seq(
             '|',
             optional($.annotations),
@@ -516,50 +533,42 @@ module.exports = grammar({
             ),
             'end'
         ),
-        /*
-        _atom: $ => choice(
-            $.identifier,
+        "location": $ => '__loc',
+        // TERM that must come after a newline in a block
+        _term_new: $ => prec(PREC.term, choice(
+            $.unary_op,
+            $.identifier, // reference
             $["this"],
             $._literal,
-            $.grouped,
-            $.tuple,
-            $.array,
+            alias($.array_new, $.array),
             $.object,
             $.lambda,
             $.barelambda,
             $.ffi_call,
             $["location"],
             $["if"],
+            $.ifdef,
+            $.iftype,
+            $.match,
             $["while"],
             $["repeat"],
-            $["for"]
-        ),
-        _prefix: $ => choice(
-            field('operator', 
-                choice('not', '-', '-~', 'addressof', 'digestof')
-            )
-        ),
-        _postfix: $ => seq(
-            $._atom,
-            repeat(
-              choice(
-                  $.field_access,
-                  $.partial_application,
-                  $.chain,
-                  $.call,
-                  $.term_with_typeargs
-              )
-            )
-        ),
-        _parampattern: $ => seq(
-            repeat($._prefix),
-            $._postfix
-        ),
-        _pattern: $ => choice(
+            $["for"],
+            $.with,
+            $.try_block,
+            $.recover,
+            $.consume,
+            //$._pattern,
             $.local,
-            $._parampattern
-        ),*/
-        "location": $ => '__loc',
+            $.binop,
+            $.asop,
+            $.field_access,
+            $.partial_application,
+            $.chain,
+            $.call,
+            alias($.tuple_new, $.tuple),
+            alias($.grouped_new, $.grouped),
+            $.term_with_typeargs
+        )),
         _term: $ => prec(PREC.term, choice(
             $.unary_op,
             $.identifier, // reference
@@ -595,12 +604,30 @@ module.exports = grammar({
             $.term_with_typeargs
             // TODO: const_expr (not yet supported in ponyc)
         )),
-        grouped: $ => seq(
-            '(', $.block, ')'
+        grouped_new: $ => prec(PREC.grouped,
+            seq(
+                alias($.lparen_new, '('),
+                $.block,
+                ')'
+            )
         ),
-        tuple: $ => seq(
-            '(', sep2(',', $.block), ')',
+        grouped: $ => prec(PREC.grouped, seq(
+            alias(choice($.lparen, $.lparen_new), '('),
+            $.block, 
+            ')'
+        )),
+        tuple_new: $ => prec(PREC.tuple,
+            seq(
+                alias($.lparen_new, '('),
+                sep2(',', $.block),
+                ')'
+            )
         ),
+        tuple: $ => prec(PREC.tuple, seq(
+            alias(choice($.lparen, $.lparen_new), '('),
+            sep2(',', $.block), 
+            ')',
+        )),
         _partial_ops: $ => choice(
             'and',
             'or',
@@ -650,11 +677,6 @@ module.exports = grammar({
                 field('operand', $._term)
             )
         ),
-        //_infix: $ => choice(
-        //    $._term,
-        //    $.binop,
-        //    $.asop,
-        //),
         // ponyc rule: ref
         identifier: $ => token(seq(/[a-zA-Z_]/, repeat(/[a-zA-Z0-9_']/))),
         param: $ => choice(
@@ -683,14 +705,21 @@ module.exports = grammar({
             optional(field('constraint', seq(':', $.type))),
             optional(field('default', seq('=', $.type)))
         ),
-        typeparams: $ => seq('[', commaSep1($.typeparam), ']'),
-        typeargs: $ => seq('[', commaSep1($.type), ']'), // TODO: const and literal typeargs
+        typeparams: $ => seq(
+            alias(choice($.lsquare, $.lsquare_new), '['),
+            commaSep1($.typeparam), 
+            ']'
+        ),
+        typeargs: $ => seq(alias($.lsquare, '['), commaSep1($.type), ']'), // TODO: const and literal typeargs
         partial: $ => '?',
         _use_name: $ => seq(field('name', $.identifier), '='),
         use_ffi: $ => seq('@',
             field("name", choice($.identifier, $.string)),
             field('return_type', $.typeargs),
-            '(', optional(field('params', $.params)), ')', optional(field('partial', $.partial))
+            alias(choice($.lparen, $.lparen_new), '('),
+            optional(field('params', $.params)), 
+            ')', 
+            optional(field('partial', $.partial))
         ),
         use: $ => seq(
                 'use',
@@ -730,7 +759,9 @@ module.exports = grammar({
             ),
             field('name', $.identifier),
             optional(field('typeparams', $.typeparams)),
-            '(', optional(field('params', $.params)), ')',
+            alias(choice($.lparen, $.lparen_new), '('),
+            optional(field('params', $.params)), 
+            ')',
             optional(seq(':', field('return_type', $.type))),
             optional($.partial),
             // docstring for functions without body

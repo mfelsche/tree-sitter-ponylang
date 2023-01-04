@@ -1,23 +1,74 @@
 #include <tree_sitter/parser.h>
 #include <wctype.h>
 #include <stdio.h>
+#include <string.h>
 
 enum TokenType {
   BLOCK_COMMENT,
   STRING,
   CHARACTER,
+  LPAREN,
+  LPAREN_NEW,
+  LSQUARE,
+  LSQUARE_NEW
 };
+
+typedef struct {
+  bool newline;
+} scanner_t;
 
 bool tree_sitter_ponylang_external_scanner_scan(
   void *payload,
   TSLexer *lexer,
   const bool *valid_symbols
 ) {
+  // no null-check here
+  scanner_t* s = (scanner_t*)payload;
 
+  // skip whitespace, but mark if we found newlines
   while (iswspace(lexer->lookahead))
   {
+    if(lexer->lookahead == '\n')
+    {
+      s->newline = true;
+    }
     lexer->advance(lexer, true);
   }
+
+  // handle left parentheses
+  if((valid_symbols[LPAREN] || valid_symbols[LPAREN_NEW]) && lexer->lookahead == '(')
+  {
+    lexer->advance(lexer, false);
+    if(s->newline)
+    {
+      lexer->result_symbol = LPAREN_NEW;
+    }
+    else
+    {
+      lexer->result_symbol = LPAREN;
+    }
+    s->newline = false;
+    return true;
+  }
+
+  // handle left squares
+  if((valid_symbols[LSQUARE] || valid_symbols[LSQUARE_NEW]) && lexer->lookahead == '[')
+  {
+    lexer->advance(lexer, false);
+    if(s->newline)
+    {
+      lexer->result_symbol = LSQUARE_NEW;
+    }
+    else
+    {
+      lexer->result_symbol = LSQUARE;
+    }
+    s->newline = false;
+    return true;
+  }
+  // we found some other character for which a previous newline doesn't really
+  // matter
+  s->newline = false;
 
   // handle block comments
   if (valid_symbols[BLOCK_COMMENT] && lexer->lookahead == '/')
@@ -196,15 +247,31 @@ bool tree_sitter_ponylang_external_scanner_scan(
 
 
 void *tree_sitter_ponylang_external_scanner_create() {
-  return NULL;
+  scanner_t* s = malloc(sizeof(scanner_t));
+  if(s != NULL)
+  {
+    s->newline = false;
+  }
+  return s;
 }
 
-void tree_sitter_ponylang_external_scanner_destroy(void *payload) {}
+void tree_sitter_ponylang_external_scanner_destroy(void *payload) {
+  if(payload != NULL)
+  {
+    free(payload);
+  }
+}
 
 unsigned tree_sitter_ponylang_external_scanner_serialize(
   void *payload,
   char *buffer
 ) {
+  if(payload != NULL)
+  {
+    scanner_t* s = (scanner_t*)payload;
+    memcpy(&buffer[0], &s->newline, sizeof(bool));
+    return sizeof(bool);
+  }
   return 0;
 }
 
@@ -212,4 +279,10 @@ void tree_sitter_ponylang_external_scanner_deserialize(
   void *payload,
   const char *buffer,
   unsigned length
-) {}
+) {
+  if(payload != NULL)
+  {
+    scanner_t* s = (scanner_t*)payload;
+    memcpy(&s->newline, &buffer[0], length);
+  }
+}
