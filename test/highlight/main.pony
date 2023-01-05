@@ -37,6 +37,6 @@ actor Main
   //                            ^ type
   //                                  ^type
     foo~partial(56.7)
-  //^ variable
+  //^ variable.parameter
   //   ^ operator
   //            ^ number
