@@ -3020,34 +3020,12 @@
           }
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "lparen"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "lparen_new"
-              }
-            ]
-          },
-          "named": false,
-          "value": "("
-        },
-        {
           "type": "FIELD",
           "name": "arguments",
           "content": {
             "type": "SYMBOL",
             "name": "arguments"
           }
-        },
-        {
-          "type": "STRING",
-          "value": ")"
         },
         {
           "type": "CHOICE",

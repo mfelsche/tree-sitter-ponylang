@@ -502,9 +502,7 @@ module.exports = grammar({
         ffi_call: $ => seq(
             '@',
             field('name', choice($.string, $.identifier)),
-            alias(choice($.lparen, $.lparen_new), '('),
             field('arguments', $["arguments"]),
-            ')',
             optional($.partial)
         ),
         match_case: $ => seq(

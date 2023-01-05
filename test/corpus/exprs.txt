@@ -230,3 +230,46 @@ primitive Foo
     )
   )
 )
+
+===================
+Block with ffi call
+===================
+
+primitive Foo
+  fun bar() =>
+    let f = Foo.bar()
+    @baz("argument")
+---
+(source_file
+  (entity
+    entity_type: (entity_type)
+    name: (identifier)
+    members: (members
+      methods: (methods
+        (method
+          name: (identifier)
+          body: (block
+            (assignment
+              left: (local name: (identifier))
+              right: (call
+                callee: (field_access
+                  base: (identifier)
+                  field: (identifier)
+                )
+                arguments: (arguments)
+              )
+            )
+            (ffi_call
+              name: (identifier)
+              arguments: (arguments
+                positional: (positional_args
+                  (block (string))
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
