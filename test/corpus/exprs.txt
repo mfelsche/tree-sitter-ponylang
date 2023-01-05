@@ -190,23 +190,28 @@ primitive Foo
                 )
               )
               field: (identifier)
-              )
-            positional: (positional_args
-              (block
-                (call
-                  callee: (field_access
-                    base: (call
-                      callee: (chain
-                        base: (array
-                          (block (this))
+            )
+            arguments: (arguments
+              positional: (positional_args
+                (block
+                  (call
+                    callee: (field_access
+                      base: (call
+                        callee: (chain
+                          base: (array
+                            (block (this))
+                          )
+                          function: (identifier)
                         )
-                        function: (identifier)
+                        arguments: (arguments
+                          positional: (positional_args
+                            (block (identifier))
+                          )
+                        )
                       )
-                      positional: (positional_args
-                        (block (identifier))
-                      )
+                      field: (identifier)
                     )
-                    field: (identifier)
+                    arguments: (arguments)
                   )
                 )
               )

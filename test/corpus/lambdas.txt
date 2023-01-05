@@ -52,11 +52,13 @@ primitive Lambda
                 (type (nominal_type name: (identifier)))
               )
             )
-            positional: (positional_args
-              (block
-                (term_with_typeargs
-                  base: (identifier)
-                  (typeargs (type (nominal_type name: (identifier))))
+            arguments: (arguments
+              positional: (positional_args
+                (block
+                  (term_with_typeargs
+                    base: (identifier)
+                    (typeargs (type (nominal_type name: (identifier))))
+                  )
                 )
               )
             )
@@ -98,6 +100,7 @@ class Lambda
                 base: (identifier)
                 field: (identifier)
               )
+              arguments: (arguments)
             )
           )
         )

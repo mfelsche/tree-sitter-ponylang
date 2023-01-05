@@ -161,6 +161,32 @@
     }
   },
   {
+    "type": "arguments",
+    "named": true,
+    "fields": {
+      "named": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "named_args",
+            "named": true
+          }
+        ]
+      },
+      "positional": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "positional_args",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "array",
     "named": true,
     "fields": {},
@@ -684,32 +710,22 @@
     "type": "call",
     "named": true,
     "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      },
       "callee": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "_term",
-            "named": true
-          }
-        ]
-      },
-      "named": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "named_args",
-            "named": true
-          }
-        ]
-      },
-      "positional": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "positional_args",
             "named": true
           }
         ]

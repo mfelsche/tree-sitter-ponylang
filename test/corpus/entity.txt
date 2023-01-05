@@ -132,11 +132,13 @@ actor Main
                                 field: (identifier))
                        field: (identifier)
             )
-            positional: (positional_args
-              (block
-                (binop
-                  lhs: (string)
-                  rhs: (integer)
+            arguments: (arguments
+              positional: (positional_args
+                (block
+                  (binop
+                    lhs: (string)
+                    rhs: (integer)
+                  )
                 )
               )
             )
@@ -176,8 +178,10 @@ actor Main
               base: (identifier) 
               function: (identifier)
             )
-            positional: (positional_args
-              (block (float))
+            arguments: (arguments
+              positional: (positional_args
+                (block (float))
+              )
             )
           )
         )
@@ -256,9 +260,14 @@ class MT is Random
                   (type (nominal_type name: (identifier)))
                 )
               )
-              positional: (positional_args
-                (block
-                  (call callee: (identifier))
+              arguments: (arguments
+                positional: (positional_args
+                  (block
+                    (call 
+                      callee: (identifier)
+                      arguments: (arguments)
+                    )
+                  )
                 )
               )
             )
@@ -267,6 +276,7 @@ class MT is Random
             left: (identifier)
             right: (call
               callee: (identifier)
+              arguments: (arguments)
             )
           )
         )

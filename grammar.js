@@ -365,18 +365,19 @@ module.exports = grammar({
             '.>',
             field('function', $.identifier)
         )),
+        "arguments": $ => seq(
+            alias($.lparen, '('),
+            optional(
+                field('positional', $.positional_args)
+            ),
+            optional(
+                field('named', $.named_args)
+            ),
+            ')',
+        ),
         call: $ => prec(PREC.call, seq(
             field('callee', $._term),
-            alias($.lparen, '('),
-            field('arguments', seq(
-                optional(
-                    field('positional', $.positional_args)
-                ),
-                optional(
-                    field('named', $.named_args)
-                )
-            )),
-            ')',
+            field('arguments', $["arguments"]),
             optional($.partial)
         )),
         term_with_typeargs: $ => prec(PREC.typeargs, seq(
@@ -502,14 +503,7 @@ module.exports = grammar({
             '@',
             field('name', choice($.string, $.identifier)),
             alias(choice($.lparen, $.lparen_new), '('),
-            field('arguments', seq(
-                optional(
-                    field('positional', $.positional_args)
-                ),
-                optional(
-                    field('named', $.named_args)
-                )
-            )),
+            field('arguments', $["arguments"]),
             ')',
             optional($.partial)
         ),
