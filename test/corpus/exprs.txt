@@ -56,12 +56,14 @@ primitive Snot
   (entity
     entity_type: (entity_type)
     name: (identifier)
-    methods: (methods
-      (method
-        name: (identifier)
-        body: (block
-          (array)
-          (array)
+    members: (members
+      methods: (methods
+        (method
+          name: (identifier)
+          body: (block
+            (array)
+            (array)
+          )
         )
       )
     )
@@ -83,12 +85,14 @@ primitive Snot
   (entity
     entity_type: (entity_type)
     name: (identifier)
-    methods: (methods
-      (method
-        name: (identifier)
-        body: (block
-          (string)
-          (string)
+    members: (members
+      methods: (methods
+        (method
+          name: (identifier)
+          body: (block
+            (string)
+            (string)
+          )
         )
       )
     )
@@ -145,15 +149,17 @@ primitive Foo
   (entity
     entity_type: (entity_type)
     name: (identifier)
-    methods: (methods
-      (method
-        name: (identifier)
-        body: (block
-          (if
-            condition: (block
-              (string)
-              (bool))
-            if_block: (block (string))
+    members: (members
+      methods: (methods
+        (method
+          name: (identifier)
+          body: (block
+            (if
+              condition: (block
+                (string)
+                (bool))
+              if_block: (block (string))
+            )
           )
         )
       )
@@ -177,41 +183,43 @@ primitive Foo
   (entity
     entity_type: (entity_type)
     name: (identifier)
-    methods: (methods
-      (method
-        name: (identifier)
-        body: (block
-          (call
-            callee: (field_access
-              base: (term_with_typeargs
-                base: (identifier)
-                (typeargs
-                  (type (nominal_type name: (identifier)))
+    members: (members
+      methods: (methods
+        (method
+          name: (identifier)
+          body: (block
+            (call
+              callee: (field_access
+                base: (term_with_typeargs
+                  base: (identifier)
+                  (typeargs
+                    (type (nominal_type name: (identifier)))
+                  )
                 )
+                field: (identifier)
               )
-              field: (identifier)
-            )
-            arguments: (arguments
-              positional: (positional_args
-                (block
-                  (call
-                    callee: (field_access
-                      base: (call
-                        callee: (chain
-                          base: (array
-                            (block (this))
+              arguments: (arguments
+                positional: (positional_args
+                  (block
+                    (call
+                      callee: (field_access
+                        base: (call
+                          callee: (chain
+                            base: (array
+                              (block (this))
+                            )
+                            function: (identifier)
                           )
-                          function: (identifier)
-                        )
-                        arguments: (arguments
-                          positional: (positional_args
-                            (block (identifier))
+                          arguments: (arguments
+                            positional: (positional_args
+                              (block (identifier))
+                            )
                           )
                         )
+                        field: (identifier)
                       )
-                      field: (identifier)
+                      arguments: (arguments)
                     )
-                    arguments: (arguments)
                   )
                 )
               )

@@ -794,6 +794,15 @@ module.exports = grammar({
         // TODO: split up into separate rules for each entity kind for having cleaner rules
         // and not 1 rule with everything mangled
         entity_type: $ => choice('type', 'interface', 'trait', 'primitive', 'struct', 'class', 'actor'),
+        // can't be empty so we have all combinations of fields and methods here
+        members: $ => choice(
+            field('fields', $.fields),
+            field('methods', $.methods),
+            seq(
+                field('fields', $.fields),
+                field('methods', $.methods)
+            )
+        ),
         entity: $ => seq(
             field('entity_type', $.entity_type),
             optional($.annotations),
@@ -803,8 +812,7 @@ module.exports = grammar({
             optional(field('typeparams', $.typeparams)),
             optional(seq('is', field('provides', $.type))),
             optional(field('docstring', $.string)),
-            optional(field('fields', $.fields)),
-            optional(field('methods', $.methods))
+            optional(field('members', $.members))
         )
     }
 });

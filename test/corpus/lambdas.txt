@@ -11,58 +11,60 @@ primitive Lambda
   (entity
     entity_type: (entity_type)
     name: (identifier)
-    methods: (methods
-      (method
-        name: (identifier)
-        params: (params
-          (param
-            name: (identifier)
-            type: (type
-              (lambda_type
-                (cap)
-                name: (identifier)
-                typeparams: (typeparams
-                  (typeparam name: (identifier))
-                )
-                argument_types: (type
-                  (nominal_type
-                    name: (identifier)
-                    typeargs: (typeargs
-                      (type (nominal_type name: (identifier)))
+    members: (members
+      methods: (methods
+        (method
+          name: (identifier)
+          params: (params
+            (param
+              name: (identifier)
+              type: (type
+                (lambda_type
+                  (cap)
+                  name: (identifier)
+                  typeparams: (typeparams
+                    (typeparam name: (identifier))
+                  )
+                  argument_types: (type
+                    (nominal_type
+                      name: (identifier)
+                      typeargs: (typeargs
+                        (type (nominal_type name: (identifier)))
+                      )
                     )
                   )
+                  return_type: (type (nominal_type name: (identifier)))
+                  (partial)
+                  (cap)
                 )
-                return_type: (type (nominal_type name: (identifier)))
-                (partial)
-                (cap)
               )
             )
           )
-        )
-        return_type: (type (nominal_type name: (identifier)))
-        (partial)
-        body: (block
-          (call
-            callee: (term_with_typeargs
-              base: (field_access
-                base: (identifier)
-                field: (identifier)
+          return_type: (type (nominal_type name: (identifier)))
+          (partial)
+          body: (block
+            (call
+              callee: (term_with_typeargs
+                base: (field_access
+                  base: (identifier)
+                  field: (identifier)
+                )
+                (typeargs
+                  (type (nominal_type name: (identifier)))
+                )
               )
-              (typeargs
-                (type (nominal_type name: (identifier)))
-              )
-            )
-            arguments: (arguments
-              positional: (positional_args
-                (block
-                  (term_with_typeargs
-                    base: (identifier)
-                    (typeargs (type (nominal_type name: (identifier))))
+              arguments: (arguments
+                positional: (positional_args
+                  (block
+                    (term_with_typeargs
+                      base: (identifier)
+                      (typeargs (type (nominal_type name: (identifier))))
+                    )
                   )
                 )
               )
+              (partial)
             )
-            (partial)
           )
         )
       )
@@ -83,24 +85,26 @@ class Lambda
   (entity
     entity_type: (entity_type)
     name: (identifier)
-    fields: (fields
-      (field
-        name: (identifier)
-        type: (type
-          (lambda_type
-            argument_types: (type (nominal_type name: (identifier)))
-            return_type: (type (nominal_type name: (identifier)))
+    members: (members
+      fields: (fields
+        (field
+          name: (identifier)
+          type: (type
+            (lambda_type
+              argument_types: (type (nominal_type name: (identifier)))
+              return_type: (type (nominal_type name: (identifier)))
+            )
           )
-        )
-        default: (lambda
-          params: (lambdaparam name: (identifier))
-          body: (block
-            (call
-              callee: (field_access
-                base: (identifier)
-                field: (identifier)
+          default: (lambda
+            params: (lambdaparam name: (identifier))
+            body: (block
+              (call
+                callee: (field_access
+                  base: (identifier)
+                  field: (identifier)
+                )
+                arguments: (arguments)
               )
-              arguments: (arguments)
             )
           )
         )
@@ -121,13 +125,15 @@ class Lambda
   (entity
     entity_type: (entity_type)
     name: (identifier)
-    fields: (fields
-      (field
-        name: (identifier)
-        type: (type (lambda_type (cap)))
-        default: (lambda
-          body: (block (identifier))
-          refcap: (cap)
+    members: (members
+      fields: (fields
+        (field
+          name: (identifier)
+          type: (type (lambda_type (cap)))
+          default: (lambda
+            body: (block (identifier))
+            refcap: (cap)
+          )
         )
       )
     )

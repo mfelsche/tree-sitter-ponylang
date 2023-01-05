@@ -3041,41 +3041,8 @@
           "type": "FIELD",
           "name": "arguments",
           "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "FIELD",
-                    "name": "positional",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "positional_args"
-                    }
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              },
-              {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "FIELD",
-                    "name": "named",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "named_args"
-                    }
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "arguments"
           }
         },
         {
@@ -4956,6 +4923,48 @@
         }
       ]
     },
+    "members": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "fields",
+          "content": {
+            "type": "SYMBOL",
+            "name": "fields"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "methods",
+          "content": {
+            "type": "SYMBOL",
+            "name": "methods"
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "fields",
+              "content": {
+                "type": "SYMBOL",
+                "name": "fields"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "methods",
+              "content": {
+                "type": "SYMBOL",
+                "name": "methods"
+              }
+            }
+          ]
+        }
+      ]
+    },
     "entity": {
       "type": "SEQ",
       "members": [
@@ -5080,26 +5089,10 @@
           "members": [
             {
               "type": "FIELD",
-              "name": "fields",
+              "name": "members",
               "content": {
                 "type": "SYMBOL",
-                "name": "fields"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "methods",
-              "content": {
-                "type": "SYMBOL",
-                "name": "methods"
+                "name": "members"
               }
             },
             {

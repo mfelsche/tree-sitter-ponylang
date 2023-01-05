@@ -1101,22 +1101,12 @@
           }
         ]
       },
-      "fields": {
+      "members": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "fields",
-            "named": true
-          }
-        ]
-      },
-      "methods": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "methods",
+            "type": "members",
             "named": true
           }
         ]
@@ -1187,6 +1177,16 @@
     "type": "ffi_call",
     "named": true,
     "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "arguments",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -1197,26 +1197,6 @@
           },
           {
             "type": "string",
-            "named": true
-          }
-        ]
-      },
-      "named": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "named_args",
-            "named": true
-          }
-        ]
-      },
-      "positional": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "positional_args",
             "named": true
           }
         ]
@@ -2057,6 +2037,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "members",
+    "named": true,
+    "fields": {
+      "fields": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "fields",
+            "named": true
+          }
+        ]
+      },
+      "methods": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "methods",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

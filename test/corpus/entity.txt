@@ -36,57 +36,59 @@ actor Main
     entity_type: (entity_type)
     name: (identifier) 
     docstring: (string) 
-    fields: (fields 
-      (field 
-        name: (identifier) 
-        type: (type (nominal_type name: (identifier)))
-        docstring: (string)
+    members: (members
+      fields: (fields 
+        (field 
+          name: (identifier) 
+          type: (type (nominal_type name: (identifier)))
+          docstring: (string)
+        )
+        (field 
+          name: (identifier)
+          type: (type 
+            (nominal_type
+                name: (identifier) 
+                cap: (cap))
+            )
+          default: (string)
+          docstring: (string)
+        )
+        (field 
+          name: (identifier) 
+          type: (type (isect_type (nominal_type name: (identifier)) (nominal_type name: (identifier) typeargs: (typeargs (type (nominal_type name: (identifier)))))))
+        )
       )
-      (field 
-        name: (identifier)
-        type: (type 
-          (nominal_type
+      methods: (methods
+        (constructor 
+          receiver_cap: (cap)
+          name: (identifier) 
+          params: (params 
+            (param 
               name: (identifier) 
-              cap: (cap))
+              type: (type (nominal_type name: (identifier)))
+            )
           )
-        default: (string)
-        docstring: (string)
-      )
-      (field 
-        name: (identifier) 
-        type: (type (isect_type (nominal_type name: (identifier)) (nominal_type name: (identifier) typeargs: (typeargs (type (nominal_type name: (identifier)))))))
-      )
-    )
-    methods: (methods
-      (constructor 
-        receiver_cap: (cap)
-        name: (identifier) 
-        params: (params 
-          (param 
-            name: (identifier) 
-            type: (type (nominal_type name: (identifier)))
+          body: (block 
+            (string)
+            (consume (identifier))
           )
         )
-        body: (block 
-          (string)
-          (consume (identifier))
+        (behavior
+          name: (identifier)
+          typeparams: (typeparams
+           (typeparam
+             name: (identifier)
+             constraint: (type (nominal_type name: (identifier)))
+           )
+          )
+          params: (params
+           (param 
+             name: (identifier) 
+             type: (type (nominal_type name: (identifier)))
+           )
+          )
+          body: (block (string))
         )
-      )
-      (behavior
-        name: (identifier)
-        typeparams: (typeparams
-         (typeparam
-           name: (identifier)
-           constraint: (type (nominal_type name: (identifier)))
-         )
-        )
-        params: (params
-         (param 
-           name: (identifier) 
-           type: (type (nominal_type name: (identifier)))
-         )
-        )
-        body: (block (string))
       )
     )
   )
@@ -115,72 +117,74 @@ actor Main
   (entity 
     entity_type: (entity_type)
     name: (identifier)
-    methods: (methods
-      (constructor
-        name: (identifier)
-        params: (params 
-          (param 
-            name: (identifier) 
-            type: (type (nominal_type name: (identifier)))
-          )
-        )
-        body: (block
-          (call
-            callee: (field_access
-                       base: (field_access
-                                base: (identifier)
-                                field: (identifier))
-                       field: (identifier)
+    members: (members
+      methods: (methods
+        (constructor
+          name: (identifier)
+          params: (params 
+            (param 
+              name: (identifier) 
+              type: (type (nominal_type name: (identifier)))
             )
-            arguments: (arguments
-              positional: (positional_args
-                (block
-                  (binop
-                    lhs: (string)
-                    rhs: (integer)
+          )
+          body: (block
+            (call
+              callee: (field_access
+                         base: (field_access
+                                  base: (identifier)
+                                  field: (identifier))
+                         field: (identifier)
+              )
+              arguments: (arguments
+                positional: (positional_args
+                  (block
+                    (binop
+                      lhs: (string)
+                      rhs: (integer)
+                    )
                   )
                 )
               )
             )
           )
         )
-      )
-      (method
-        receiver_cap: (cap)
-        name: (identifier)
-        return_type: (type (nominal_type name: (identifier)))
-        body: (block (bool))
-      )
-      (behavior
-        name: (identifier)
-        typeparams: (typeparams
-          (typeparam
-            name: (identifier)
-            constraint: (type (nominal_type name: (identifier)))
-          )
+        (method
+          receiver_cap: (cap)
+          name: (identifier)
+          return_type: (type (nominal_type name: (identifier)))
+          body: (block (bool))
         )
-        params: (params
-          (param
-            name: (identifier)
-            type: (type
-              (nominal_type
-                name: (identifier)
-                typeargs: (typeargs
-                  (type (nominal_type name: (identifier)))
+        (behavior
+          name: (identifier)
+          typeparams: (typeparams
+            (typeparam
+              name: (identifier)
+              constraint: (type (nominal_type name: (identifier)))
+            )
+          )
+          params: (params
+            (param
+              name: (identifier)
+              type: (type
+                (nominal_type
+                  name: (identifier)
+                  typeargs: (typeargs
+                    (type (nominal_type name: (identifier)))
+                  )
                 )
               )
             )
           )
-        )
-        body: (block
-          (call
-            callee: (partial_application 
-              base: (identifier) 
-              function: (identifier)
-            )
-            arguments: (arguments
-              positional: (positional_args
-                (block (float))
+          body: (block
+            (call
+              callee: (partial_application 
+                base: (identifier) 
+                function: (identifier)
+              )
+              arguments: (arguments
+                positional: (positional_args
+                  (block (float))
+                )
               )
             )
           )
@@ -217,66 +221,68 @@ class MT is Random
     name: (identifier)
     provides: (type (nominal_type name: (identifier)))
     docstring: (string)
-    fields: (fields
-      (field
-        name: (identifier)
-        type: (type
-          (nominal_type
-            name: (identifier)
-            typeargs: (typeargs
-              (type (nominal_type name: (identifier)))
+    members: (members
+      fields: (fields
+        (field
+          name: (identifier)
+          type: (type
+            (nominal_type
+              name: (identifier)
+              typeargs: (typeargs
+                (type (nominal_type name: (identifier)))
+              )
             )
           )
         )
-      )
-      (field
-        name: (identifier)
-        type: (type (nominal_type name: (identifier)))
-      )
-    )
-    methods: (methods
-      (constructor
-        name: (identifier)
-        params: (params
-          (param
-            name: (identifier)
-            type: (type (nominal_type name: (identifier)))
-            default: (integer)
-          )
-          (param
-            name: (identifier)
-            type: (type (nominal_type name: (identifier)))
-            default: (integer)
-          )
+        (field
+          name: (identifier)
+          type: (type (nominal_type name: (identifier)))
         )
-        body: (block
-          (string)
-          (assignment
-            left: (identifier)
-            right: (call
-              callee: (term_with_typeargs
-                base: (identifier)
-                (typeargs
-                  (type (nominal_type name: (identifier)))
+      )
+      methods: (methods
+        (constructor
+          name: (identifier)
+          params: (params
+            (param
+              name: (identifier)
+              type: (type (nominal_type name: (identifier)))
+              default: (integer)
+            )
+            (param
+              name: (identifier)
+              type: (type (nominal_type name: (identifier)))
+              default: (integer)
+            )
+          )
+          body: (block
+            (string)
+            (assignment
+              left: (identifier)
+              right: (call
+                callee: (term_with_typeargs
+                  base: (identifier)
+                  (typeargs
+                    (type (nominal_type name: (identifier)))
+                  )
                 )
-              )
-              arguments: (arguments
-                positional: (positional_args
-                  (block
-                    (call 
-                      callee: (identifier)
-                      arguments: (arguments)
+                arguments: (arguments
+                  positional: (positional_args
+                    (block
+                      (call 
+                        callee: (identifier)
+                        arguments: (arguments)
+                      )
                     )
                   )
                 )
               )
             )
-          )
-          (assignment
-            left: (identifier)
-            right: (call
-              callee: (identifier)
-              arguments: (arguments)
+            (assignment
+              left: (identifier)
+              right: (call
+                callee: (identifier)
+                arguments: (arguments)
+              )
             )
           )
         )
@@ -303,23 +309,25 @@ interface Notify
     entity_type: (entity_type)
     name: (identifier)
     docstring: (string)
-    methods: (methods
-      (method
-        receiver_cap: (cap)
-        name: (identifier)
-        params: (params
-          (param 
-            name: (identifier)
-            type: (type (nominal_type name: (identifier))))
-          (param 
-            name: (identifier)
-            type: (type (nominal_type name: (identifier))))
-          (param 
-            name: (identifier)
-            type: (type (nominal_type name: (identifier))))
+    members: (members
+      methods: (methods
+        (method
+          receiver_cap: (cap)
+          name: (identifier)
+          params: (params
+            (param 
+              name: (identifier)
+              type: (type (nominal_type name: (identifier))))
+            (param 
+              name: (identifier)
+              type: (type (nominal_type name: (identifier))))
+            (param 
+              name: (identifier)
+              type: (type (nominal_type name: (identifier))))
+          )
+          return_type: (type (nominal_type name: (identifier)))
+          docstring: (string)
         )
-        return_type: (type (nominal_type name: (identifier)))
-        docstring: (string)
       )
     )
   )

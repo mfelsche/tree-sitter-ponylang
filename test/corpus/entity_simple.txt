@@ -8,19 +8,21 @@ actor Main
 ---
 
 (source_file
-    (entity
-        entity_type: (entity_type)
-        name: (identifier)
-        methods: (methods
-            (constructor
+  (entity
+    entity_type: (entity_type)
+    name: (identifier)
+    members: (members
+      methods: (methods
+        (constructor
+          name: (identifier)
+          params: (params
+            (param
               name: (identifier)
-              params: (params
-                (param
-                  name: (identifier)
-                  type: (type
-                    (nominal_type name: (identifier)))))
-              body: (block (identifier))
-            )
+              type: (type
+                (nominal_type name: (identifier)))))
+          body: (block (identifier))
         )
+      )
     )
+  )
 )
