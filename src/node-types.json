@@ -2291,22 +2291,12 @@
           }
         ]
       },
-      "fields": {
+      "members": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "fields",
-            "named": true
-          }
-        ]
-      },
-      "methods": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "methods",
+            "type": "members",
             "named": true
           }
         ]

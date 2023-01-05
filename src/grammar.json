@@ -4857,26 +4857,10 @@
           "members": [
             {
               "type": "FIELD",
-              "name": "fields",
+              "name": "members",
               "content": {
                 "type": "SYMBOL",
-                "name": "fields"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "methods",
-              "content": {
-                "type": "SYMBOL",
-                "name": "methods"
+                "name": "members"
               }
             },
             {

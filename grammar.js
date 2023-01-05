@@ -787,8 +787,7 @@ module.exports = grammar({
                 field('cap', $.cap)
             ),
             optional(seq('is', field('provides', $.type))),
-            optional(field('fields', $.fields)),
-            optional(field('methods', $.methods)),
+            optional(field('members', $.members)),
             'end'
         ),
         // TODO: split up into separate rules for each entity kind for having cleaner rules
