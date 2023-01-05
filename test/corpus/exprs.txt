@@ -197,10 +197,10 @@ primitive Foo
                   callee: (field_access
                     base: (call
                       callee: (chain
-                        callee: (array
+                        base: (array
                           (block (this))
                         )
-                        (identifier)
+                        function: (identifier)
                       )
                       positional: (positional_args
                         (block (identifier))

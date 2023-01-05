@@ -117,8 +117,10 @@
 ;; strings/docstrings
 (source_file docstring: (string) @string.special)
 (entity docstring: (string) @string.special)
-(constructor body: (block . (string) @string.special))
+(constructor docstring: (string) @string.special)
 (method docstring: (string) @string.special)
+(behavior docstring: (string) @string.special)
+(constructor body: (block . (string) @string.special))
 (method body: (block . (string) @string.special))
 (behavior body: (block . (string) @string.special))
 (field docstring: (string) @string.special)
@@ -127,12 +129,12 @@
 ;; fields/params and other non-variable identifiers
 (field name: (identifier) @property)
 (param (identifier) @variable.parameter)
+(lambdaparam (identifier) @variable.parameter)
 
 ;; Types
 (entity name: (identifier) @type)
 (nominal_type name: (identifier) @type)
 (typeparams (typeparam name: (identifier) @type))
-(entity name: (identifier) @type)
 ;(type) @type
 
 

@@ -735,7 +735,7 @@
     "type": "chain",
     "named": true,
     "fields": {
-      "callee": {
+      "base": {
         "multiple": false,
         "required": true,
         "types": [
@@ -744,17 +744,17 @@
             "named": true
           }
         ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -2366,7 +2366,7 @@
     "type": "partial_application",
     "named": true,
     "fields": {
-      "callee": {
+      "base": {
         "multiple": false,
         "required": true,
         "types": [
@@ -2375,17 +2375,17 @@
             "named": true
           }
         ]
+      },
+      "function": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "identifier",
+            "named": true
+          }
+        ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
     }
   },
   {

@@ -356,14 +356,14 @@ module.exports = grammar({
             field('field', $.identifier)
         )),
         partial_application: $ => prec(PREC.call, seq(
-            field('callee', $._term),
+            field('base', $._term),
             '~', 
-            $.identifier
+            field('function', $.identifier)
         )),
         chain: $ => prec(PREC.call, seq(
-            field('callee', $._term),
+            field('base', $._term),
             '.>',
-            $.identifier
+            field('function', $.identifier)
         )),
         call: $ => prec(PREC.call, seq(
             field('callee', $._term),

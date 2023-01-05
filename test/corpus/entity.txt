@@ -173,8 +173,8 @@ actor Main
         body: (block
           (call
             callee: (partial_application 
-              callee: (identifier) 
-              (identifier)
+              base: (identifier) 
+              function: (identifier)
             )
             positional: (positional_args
               (block (float))

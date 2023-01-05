@@ -2122,7 +2122,7 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "callee",
+            "name": "base",
             "content": {
               "type": "SYMBOL",
               "name": "_term"
@@ -2133,8 +2133,12 @@
             "value": "~"
           },
           {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "FIELD",
+            "name": "function",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
           }
         ]
       }
@@ -2147,7 +2151,7 @@
         "members": [
           {
             "type": "FIELD",
-            "name": "callee",
+            "name": "base",
             "content": {
               "type": "SYMBOL",
               "name": "_term"
@@ -2158,8 +2162,12 @@
             "value": ".>"
           },
           {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "FIELD",
+            "name": "function",
+            "content": {
+              "type": "SYMBOL",
+              "name": "identifier"
+            }
           }
         ]
       }
