@@ -35,7 +35,7 @@ use "snot" if [
     condition: (array
       (block
         (array)
-        (array (block (number) (number) (number)))
+        (array (block (integer) (integer) (integer)))
       )
     )
   )
@@ -123,7 +123,7 @@ use "" if [as U8:
     specifier: (string)
     condition: (array 
       (type (nominal_type name: (identifier)))
-      (block (number) (number))
+      (block (integer) (integer))
     )
   )
 )

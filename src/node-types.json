@@ -48,6 +48,10 @@
         "named": true
       },
       {
+        "type": "float",
+        "named": true
+      },
+      {
         "type": "for",
         "named": true
       },
@@ -72,6 +76,10 @@
         "named": true
       },
       {
+        "type": "integer",
+        "named": true
+      },
+      {
         "type": "lambda",
         "named": true
       },
@@ -85,10 +93,6 @@
       },
       {
         "type": "match",
-        "named": true
-      },
-      {
-        "type": "number",
         "named": true
       },
       {
@@ -3496,6 +3500,10 @@
     "named": false
   },
   {
+    "type": "float",
+    "named": true
+  },
+  {
     "type": "for",
     "named": false
   },
@@ -3522,6 +3530,10 @@
   {
     "type": "in",
     "named": false
+  },
+  {
+    "type": "integer",
+    "named": true
   },
   {
     "type": "interface",
@@ -3562,10 +3574,6 @@
   {
     "type": "not",
     "named": false
-  },
-  {
-    "type": "number",
-    "named": true
   },
   {
     "type": "object",

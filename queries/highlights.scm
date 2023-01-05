@@ -1,4 +1,4 @@
-; Common names to assign: 
+; names to assign: 
 ; - attribute
 ; - comment
 ; - constant
@@ -109,7 +109,10 @@
 
 ;; literals
 (bool) @constant.builtin
-(number) @number
+[
+  (integer)
+  (float)
+] @number
 
 ;; strings/docstrings
 (source_file docstring: (string) @string.special)

@@ -12,6 +12,11 @@ const PREC = {
   array: 9,
 };
 
+// constants for numeric literals
+const decimal = /[0-9][0-9_]*/;
+const hexadecimal = /[0-9a-fA-F][0-9a-fA-F_]*/;
+const binary = /[01][01_]*/;
+
 module.exports = grammar({
     name: 'ponylang',
 
@@ -382,22 +387,33 @@ module.exports = grammar({
             'true',
             'false'
         ),
-        number: $ => {
-            const decimal = /[0-9][0-9_]*/;
-            const hexadecimal = /[0-9a-fA-F][0-9a-fA-F_]*/;
-            const binary = /[01][01_]*/;
-            return token(seq(
-                choice(
-                    seq(/0[xX]/, hexadecimal),
-                    seq(/0[bB]/, binary),
-                    seq(decimal, optional('.'), optional(decimal))
-                ),
-                optional(/[eE][+-]?\d+/)
+        integer: $ => {
+            return token(choice(
+                seq(/0[xX]/, hexadecimal),
+                seq(/0[bB]/, binary),
+                decimal
             ))
+        },
+        "float": $ => {
+            return token(
+                seq(
+                    seq(
+                        decimal, 
+                        optional(
+                            choice(
+                                '.',
+                                seq('.', decimal)
+                            )
+                        )
+                    ),
+                    optional(/[eE][+-]?\d+/)
+                )
+            )
         },
         _literal: $ => choice(
             $.bool,
-            $.number,
+            $.integer,
+            $["float"],
             $.string,
             $.character
         ),

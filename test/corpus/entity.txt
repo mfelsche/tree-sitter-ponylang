@@ -136,7 +136,7 @@ actor Main
               (block
                 (binop
                   lhs: (string)
-                  rhs: (number)
+                  rhs: (integer)
                 )
               )
             )
@@ -177,7 +177,7 @@ actor Main
               (identifier)
             )
             positional: (positional_args
-              (block (number))
+              (block (float))
             )
           )
         )
@@ -237,12 +237,12 @@ class MT is Random
           (param
             name: (identifier)
             type: (type (nominal_type name: (identifier)))
-            default: (number)
+            default: (integer)
           )
           (param
             name: (identifier)
             type: (type (nominal_type name: (identifier)))
-            default: (number)
+            default: (integer)
           )
         )
         body: (block
