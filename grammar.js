@@ -605,7 +605,7 @@ module.exports = grammar({
             $.local,
             $.binop,
             $.asop,
-            $.field_acces,
+            $.field_access,
             $.partial_application,
             $.chain,
             $.call,

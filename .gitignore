@@ -4,3 +4,4 @@
 build/
 target/
 /tree-sitter-ponylang.wasm
+/src/*.o
