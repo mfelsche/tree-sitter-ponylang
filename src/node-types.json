@@ -1003,54 +1003,22 @@
     "type": "elseiftype",
     "named": true,
     "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "iftype_condition",
+            "named": true
+          }
+        ]
+      },
       "if_block": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "block",
-            "named": true
-          }
-        ]
-      },
-      "iftype": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "<:",
-            "named": false
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "then",
-            "named": false
-          },
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      },
-      "subtype": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
             "named": true
           }
         ]
@@ -1495,6 +1463,16 @@
     "type": "iftype",
     "named": true,
     "fields": {
+      "condition": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "iftype_condition",
+            "named": true
+          }
+        ]
+      },
       "else_block": {
         "multiple": false,
         "required": false,
@@ -1514,29 +1492,27 @@
             "named": true
           }
         ]
-      },
-      "iftype": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "<:",
-            "named": false
-          },
-          {
-            "type": "block",
-            "named": true
-          },
-          {
-            "type": "then",
-            "named": false
-          },
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      },
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "annotations",
+          "named": true
+        },
+        {
+          "type": "elseiftype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "iftype_condition",
+    "named": true,
+    "fields": {
       "subtype": {
         "multiple": false,
         "required": true,
@@ -1557,20 +1533,6 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "annotations",
-          "named": true
-        },
-        {
-          "type": "elseiftype",
-          "named": true
-        }
-      ]
     }
   },
   {

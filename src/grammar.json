@@ -1903,7 +1903,7 @@
         }
       ]
     },
-    "_iftype": {
+    "iftype_condition": {
       "type": "SEQ",
       "members": [
         {
@@ -1924,6 +1924,19 @@
           "content": {
             "type": "SYMBOL",
             "name": "type"
+          }
+        }
+      ]
+    },
+    "_iftype": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "condition",
+          "content": {
+            "type": "SYMBOL",
+            "name": "iftype_condition"
           }
         },
         {
@@ -1960,12 +1973,8 @@
           ]
         },
         {
-          "type": "FIELD",
-          "name": "iftype",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_iftype"
-          }
+          "type": "SYMBOL",
+          "name": "_iftype"
         }
       ]
     },
@@ -1989,12 +1998,8 @@
           ]
         },
         {
-          "type": "FIELD",
-          "name": "iftype",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_iftype"
-          }
+          "type": "SYMBOL",
+          "name": "_iftype"
         },
         {
           "type": "REPEAT",

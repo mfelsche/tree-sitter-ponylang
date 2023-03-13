@@ -273,3 +273,104 @@ primitive Foo
     )
   )
 )
+
+======
+Iftype
+======
+
+primitive Foo[A]
+  fun bar() =>
+    iftype A <: Stringable then
+        "snot"
+    elseif A <: Hashable then
+        "hash"
+    else
+        "bla"
+    end
+---
+(source_file
+    (entity
+        entity_type: (entity_type)
+        name: (identifier)
+        typeparams: (typeparams
+            (typeparam name: (identifier))
+        )
+        members: (members
+              methods: (methods
+                (method
+                  name: (identifier)
+                  body: (block
+                    (iftype
+                        condition: (iftype_condition
+                            type: (type (nominal_type name: (identifier)))
+                            subtype: (type (nominal_type name: (identifier)))
+                        )
+                        if_block: (block (string))
+                        (elseiftype
+                            condition: (iftype_condition
+                                type: (type (nominal_type name: (identifier)))
+                                subtype: (type (nominal_type name: (identifier)))
+                            )
+                            if_block: (block (string))
+                        )
+                        else_block: (block (string))
+                    )
+                  )
+                )
+              )
+        )
+    )
+)
+
+========
+For Loop
+========
+
+primitive Snot
+  fun bar() =>
+    for a in [].values() do
+        while true do
+            repeat
+                None
+            until a == true end
+        end
+    end
+---
+(source_file
+    (entity
+        entity_type: (entity_type)
+        name: (identifier)
+        members: (members
+            methods: (methods
+                (method
+                    name: (identifier)
+                    body: (block
+                        (for
+                            element: (idseq (identifier))
+                            iterator: (block
+                                (call
+                                    callee: (field_access
+                                        base: (array)
+                                        field: (identifier)
+                                    )
+                                    arguments: (arguments)
+                                )
+                            )
+                            body: (block
+                                (while
+                                    condition: (block (bool))
+                                    body: (block
+                                        (repeat
+                                            body: (block (identifier))
+                                            condition: (block (binop lhs: (identifier) rhs: (bool)))
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        )
+    )
+)
